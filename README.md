@@ -3,6 +3,7 @@
 Este es el repositorio donde deberán subir todos los archivos necesarios su proyecto. En caso de necesitar compañeros se pueden buscar en el siguietne [link](https://github.com/IIC2333/Foro-2020-2/issues/82)
 
 | Nombre integrante | Número de alumno |
+|  :----: |    :----:   |
 | Rellenar | Rellenar |
 | Rellenar | Rellenar |
 
