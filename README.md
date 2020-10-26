@@ -4,14 +4,14 @@ Este es el repositorio donde deberán subir todos los archivos necesarios para s
 
 | Nombre integrante | Número de alumno |
 |  :----: |    :----:   |
-| Rellenar | Rellenar |
-| Rellenar | Rellenar |
-| Rellenar | Rellenar |
-| Rellenar | Rellenar |
+| RELLENAR | RELLENAR |
+| RELLENAR | RELLENAR |
+| RELLENAR | RELLENAR |
+| RELLENAR | RELLENAR |
 
-En este readme deberán agregan la siguietne información:
+En este README deberán agregan la siguiente información:
 - Instrucciones para ejecutar el programa
-- Descripcion de los paquetes utilizados en la comunicación entre cliente y servidor.
+- Descripción de los paquetes utilizados en la comunicación entre cliente y servidor.
 - Cuáles fueron las principales decisiones de diseño para construir el programa.
 - Cuáles son las principales funciones del programa.
 - Qué supuestos adicionales ocuparon.
