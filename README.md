@@ -6,6 +6,8 @@ Este es el repositorio donde deberán subir todos los archivos necesarios para s
 |  :----: |    :----:   |
 | Rellenar | Rellenar |
 | Rellenar | Rellenar |
+| Rellenar | Rellenar |
+| Rellenar | Rellenar |
 
 En este readme deberán agregan la siguietne información:
 - Instrucciones para ejecutar el programa
