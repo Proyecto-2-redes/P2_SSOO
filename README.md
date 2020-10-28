@@ -7,7 +7,7 @@ Este es el repositorio donde deberán subir todos los archivos necesarios para s
 | FELIPE BARRÍA MORA  | 15637298 |
 | RELLENAR | RELLENAR |
 | RELLENAR | RELLENAR |
-| RELLENAR | RELLENAR |
+| LUCAS ZALAQUETT MC KAY| 15635031 |
 
 En este README deberán agregan la siguiente información:
 - Instrucciones para ejecutar el programa
