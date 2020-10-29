@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "conection.h"
-#include "comunication.h"
+#include "communication.h"
 
 int main(int argc, char* argv[]) {
     printf("hola, soy client\n");

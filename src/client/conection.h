@@ -11,6 +11,6 @@
 #include <netdb.h>
 #include <string.h>
 #include <errno.h>
-#include "comunication.h"
+#include "communication.h"
 
 int prepare_socket(char * IP, int PORT);
