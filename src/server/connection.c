@@ -39,13 +39,21 @@ PlayersInfo* prepare_sockets_and_get_clients(char* IP, int port) {
 
     // Se aceptan a los primeros 8 clientes que lleguen. "accept" retorna el n° de otro socket asignado para la comunicación
     sockets_clients->socket_c1 = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
+    printf("Entro 1\n");
     sockets_clients->socket_c2 = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
+    printf("Entro 2\n");
     sockets_clients->socket_c3 = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
+    printf("Entro 3\n");
     sockets_clients->socket_c4 = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
+    printf("Entro 4\n");
     sockets_clients->socket_c5 = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
+    printf("Entro 5\n");
     sockets_clients->socket_c6 = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
+    printf("Entro 6\n");
     sockets_clients->socket_c7 = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
+    printf("Entro 7\n");
     sockets_clients->socket_c8 = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
+    printf("Entro 8\n");
 
     return sockets_clients;
 }
