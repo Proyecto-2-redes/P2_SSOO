@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "comunication.h"
+#include "communication.h"
 #include "conection.h"
 
 int main(int argc, char* argv[]) {
@@ -19,5 +19,18 @@ int main(int argc, char* argv[]) {
                             players_info->socket_c5, players_info->socket_c6,
                             players_info->socket_c7, players_info->socket_c8};
     int my_attention = 0;
+    while (1){
+      // Se obtiene el paquete del cliente 1
+      int msg_code = server_receive_id(sockets_array[my_attention]);
+
+      char * client_message = server_receive_payload(sockets_array[my_attention]);
+      printf("El cliente %d dice: %s\n", my_attention+1, client_message);
+
+      // Le enviaremos el mismo mensaje invertido jeje
+      char * response = "El servidor recibio el mensaje.\n";
+
+      // Le enviamos la respuesta
+      server_send_message(sockets_array[my_attention], 1, response);
+    }
     return 0;
 }
