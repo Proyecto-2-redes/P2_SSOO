@@ -1,5 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
+#include "conection.h"
+#include "comunication.h"
 
 int main(int argc, char* argv[]) {
     printf("hola, soy client\n");
@@ -17,6 +19,7 @@ int main(int argc, char* argv[]) {
         char * message = client_receive_payload(server_socket);
         printf("El servidor dice: %s\n", message);
         free(message);
+      }
     }
     close(server_socket);
     free(IP);
