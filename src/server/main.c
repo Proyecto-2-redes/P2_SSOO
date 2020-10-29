@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 #include "communication.h"
 #include "conection.h"
 
@@ -9,7 +10,14 @@ int main(int argc, char* argv[]) {
     char * IP = "0.0.0.0";
     int PORT = 8080;
 
-    PlayersInfo * players_info = prepare_sockets_and_get_clients(IP, PORT);
+
+    pthread_t thread_id;
+
+    PlayersInfo * players_info;
+
+    pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, NULL);
+
+
     char * welcome = "Bienvenido Cliente 1!!";
     server_send_message(players_info->socket_c1, 1, welcome);
 
