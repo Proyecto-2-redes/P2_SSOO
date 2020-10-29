@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
 
       if (msg_code == 1) { //Recibimos un mensaje del servidor
         char * message = client_receive_payload(server_socket);
-        printf("El servidor dice: %s\n", message);
+        printf("[SERVIDOR] : %s\n", message);
         free(message);
       }
     }
