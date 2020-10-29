@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
 
     PlayersInfo* sockets_clients = malloc(sizeof(PlayersInfo));
     sockets_clients->num_players = 0;
-    
+
     pthread_t thread_id;
 
     struct arg_struct args;
