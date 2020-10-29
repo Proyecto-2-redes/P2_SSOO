@@ -2,12 +2,12 @@
 
 Este es el repositorio donde deberán subir todos los archivos necesarios para su proyecto. En caso de necesitar compañeros se pueden buscar en el siguiente [link](https://github.com/IIC2333/Foro-2020-2/issues/82)
 
-|      Nombre integrante      | Número de alumno |
-| :-------------------------: | :--------------: |
-|     FELIPE BARRÍA MORA      |     15637298     |
-| JUAN PABLO GONZÁLEZ ARAVENA |     1461913J     |
-|          IRINA ANDREA SALAZAR GRONDONA           |     14203944     |
-|   LUCAS ZALAQUETT MC KAY    |     15635031     |
+|       Nombre integrante       | Número de alumno |
+| :---------------------------: | :--------------: |
+|      FELIPE BARRÍA MORA       |     15637298     |
+|  JUAN PABLO GONZÁLEZ ARAVENA  |     1461913J     |
+| IRINA ANDREA SALAZAR GRONDONA |     14203944     |
+|    LUCAS ZALAQUETT MC KAY     |     15635031     |
 
 En este README deberán agregan la siguiente información:
 
