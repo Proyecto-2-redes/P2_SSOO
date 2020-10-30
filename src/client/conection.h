@@ -13,4 +13,8 @@
 #include <errno.h>
 #include "communication.h"
 
+struct arg_struct {
+    int server_socket;
+};
+
 int prepare_socket(char * IP, int PORT);
