@@ -11,7 +11,6 @@
 
 
 typedef struct players_info {
-    int num_players;
     int socket_c1;
     int socket_c2;
     int socket_c3;
@@ -29,4 +28,6 @@ struct arg_struct {
 };
 
 
-void prepare_sockets_and_get_clients(void *arguments);
+void* prepare_sockets_and_get_clients(void *arguments);
+
+void message_initial(int player_number, int sockets_array[8]);

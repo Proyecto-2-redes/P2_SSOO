@@ -1,7 +1,7 @@
 #include "conection.h"
 #include "communication.h"
 
-void prepare_sockets_and_get_clients(void *arguments) {
+void* prepare_sockets_and_get_clients(void *arguments) {
     struct arg_struct *args = (struct arg_struct *)arguments;
     // Se define la estructura para almacenar info del socket del servidor al momento de su creación
     struct sockaddr_in server_addr;
@@ -36,65 +36,62 @@ void prepare_sockets_and_get_clients(void *arguments) {
     struct sockaddr_in client8_addr;
     socklen_t addr_size = sizeof(client1_addr);
 
+    int sockets_array[8];
+
+
     // Se inicializa una estructura propia para guardar los n°s de sockets de los clientes.
     // Se aceptan a los primeros 8 clientes que lleguen. "accept" retorna el n° de otro socket asignado para la comunicación
-    char * welcome = "Bienvenido a Among RUZ!!";
-    char* numb_players;
-
     args->sockets_clients->socket_c1 = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[0] = args->sockets_clients->socket_c1;
+    message_initial(1, sockets_array);
     printf("Entro 1\n");
-    numb_players = "Hay 1 jugador en la sala.";
-    server_send_message(args->sockets_clients->socket_c1, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c1, 1, numb_players);
 
     args->sockets_clients->socket_c2 = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[1] = args->sockets_clients->socket_c2;
+    message_initial(2, sockets_array);
     printf("Entro 2\n");
-    numb_players = "Hay 2 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c2, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c2, 1, numb_players);
 
     args->sockets_clients->socket_c3 = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[2] = args->sockets_clients->socket_c3;
+    message_initial(3, sockets_array);
     printf("Entro 3\n");
-    numb_players = "Hay 3 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c3, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c3, 1, numb_players);
-
 
     args->sockets_clients->socket_c4 = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[3] = args->sockets_clients->socket_c4;
+    message_initial(4, sockets_array);
     printf("Entro 4\n");
-    numb_players = "Hay 4 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c4, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c4, 1, numb_players);
 
     args->sockets_clients->socket_c5 = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[4] = args->sockets_clients->socket_c5;
+    message_initial(5, sockets_array);
     printf("Entro 5\n");
-    numb_players = "Hay 5 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c5, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c5, 1, numb_players);
 
     args->sockets_clients->socket_c6 = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[5] = args->sockets_clients->socket_c6;
+    message_initial(6, sockets_array);
     printf("Entro 6\n");
-    numb_players = "Hay 6 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c6, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c6, 1, numb_players);
 
     args->sockets_clients->socket_c7 = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[6] = args->sockets_clients->socket_c7;
+    message_initial(7, sockets_array);
     printf("Entro 7\n");
-    numb_players = "Hay 7 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c7, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c7, 1, numb_players);
 
     args->sockets_clients->socket_c8 = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
-    args->sockets_clients->num_players++;
+    sockets_array[7] = args->sockets_clients->socket_c8;
+    message_initial(8, sockets_array);
     printf("Entro 8\n");
-    numb_players = "Hay 8 jugadores en la sala.";
-    server_send_message(args->sockets_clients->socket_c8, 1, welcome);
-    server_send_message(args->sockets_clients->socket_c8, 1, numb_players);
+    return NULL;
+}
+
+void message_initial(int player_number, int sockets_array[8]){
+  char* welcome = "Bienvenido a Among RUZ!!";
+  server_send_message(sockets_array[player_number-1], 1, welcome);
+  char string[28];
+  sprintf(string, "Hay %i jugadores en la sala.", player_number);
+  for(int i = 0; i < 8; i++){
+    if (sockets_array[i]){
+      server_send_message(sockets_array[i], 1, string);
+    }
+  }
+
 }

@@ -12,7 +12,6 @@ int main(int argc, char* argv[]) {
     int PORT = 8080; //CAMBIAR POR ARGVS QUE RECIBE
 
     PlayersInfo* sockets_clients = malloc(sizeof(PlayersInfo));
-    sockets_clients->num_players = 0;
 
     pthread_t thread_id;
 
@@ -20,10 +19,8 @@ int main(int argc, char* argv[]) {
     args.IP = IP; //CAMBIAR POR ARGVS QUE RECIBE
     args.PORT = PORT; //CAMBIAR POR ARGVS QUE RECIBE
     args.sockets_clients = sockets_clients;
-    printf("Hola\n");
 
     pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, (void *)&args);
-    printf("Hola2\n");
 
     // char * welcome = "Bienvenido Cliente 1!!";
     // server_send_message(players_info->socket_c1, 1, welcome);
