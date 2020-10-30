@@ -30,4 +30,4 @@ struct arg_struct {
 
 void* prepare_sockets_and_get_clients(void *arguments);
 
-void message_initial(int player_number, int sockets_array[8]);
+void message_initial(int player_number, int sockets_array[8], char colors[8][9]);

@@ -38,60 +38,69 @@ void* prepare_sockets_and_get_clients(void *arguments) {
 
     int sockets_array[8];
 
+    char colors[8][9] = {"rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado"};
+
 
     // Se inicializa una estructura propia para guardar los n°s de sockets de los clientes.
     // Se aceptan a los primeros 8 clientes que lleguen. "accept" retorna el n° de otro socket asignado para la comunicación
     args->sockets_clients->socket_c1 = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
     sockets_array[0] = args->sockets_clients->socket_c1;
-    message_initial(1, sockets_array);
-    printf("Entro 1\n");
+    message_initial(1, sockets_array, colors);
+    printf("Entro jugador 1\n");
 
     args->sockets_clients->socket_c2 = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
     sockets_array[1] = args->sockets_clients->socket_c2;
-    message_initial(2, sockets_array);
-    printf("Entro 2\n");
+    message_initial(2, sockets_array, colors);
+    printf("Entro jugador 2\n");
 
     args->sockets_clients->socket_c3 = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
     sockets_array[2] = args->sockets_clients->socket_c3;
-    message_initial(3, sockets_array);
-    printf("Entro 3\n");
+    message_initial(3, sockets_array, colors);
+    printf("Entro jugador 3\n");
 
     args->sockets_clients->socket_c4 = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
     sockets_array[3] = args->sockets_clients->socket_c4;
-    message_initial(4, sockets_array);
-    printf("Entro 4\n");
+    message_initial(4, sockets_array, colors);
+    printf("Entro jugador 4\n");
 
     args->sockets_clients->socket_c5 = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
     sockets_array[4] = args->sockets_clients->socket_c5;
-    message_initial(5, sockets_array);
-    printf("Entro 5\n");
+    message_initial(5, sockets_array, colors);
+    printf("Entro jugador 5\n");
 
     args->sockets_clients->socket_c6 = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
     sockets_array[5] = args->sockets_clients->socket_c6;
-    message_initial(6, sockets_array);
-    printf("Entro 6\n");
+    message_initial(6, sockets_array, colors);
+    printf("Entro jugador 6\n");
 
     args->sockets_clients->socket_c7 = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
     sockets_array[6] = args->sockets_clients->socket_c7;
-    message_initial(7, sockets_array);
-    printf("Entro 7\n");
+    message_initial(7, sockets_array, colors);
+    printf("Entro jugador 7\n");
 
     args->sockets_clients->socket_c8 = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
     sockets_array[7] = args->sockets_clients->socket_c8;
-    message_initial(8, sockets_array);
-    printf("Entro 8\n");
+    message_initial(8, sockets_array, colors);
+    printf("Entro jugador 8\n");
     return NULL;
 }
 
-void message_initial(int player_number, int sockets_array[8]){
+void message_initial(int player_number, int sockets_array[8], char colors[8][9]){
   char* welcome = "Bienvenido a Among RUZ!!";
+  char color_string[34];
+  char message_string[34];
+  char players_string[28];
+  sprintf(color_string, "Se te asigno el color %s.", colors[player_number-1]);
+  sprintf(message_string, "Se ha unido el jugador %s.", colors[player_number-1]);
+  sprintf(players_string, "Hay %i jugadores en la sala.", player_number);
+
   server_send_message(sockets_array[player_number-1], 1, welcome);
-  char string[28];
-  sprintf(string, "Hay %i jugadores en la sala.", player_number);
+  server_send_message(sockets_array[player_number-1], 1, color_string);
+  server_send_message(sockets_array[player_number-1], 1, players_string);
   for(int i = 0; i < 8; i++){
-    if (sockets_array[i]){
-      server_send_message(sockets_array[i], 1, string);
+    if (sockets_array[i] && i != player_number-1){
+      server_send_message(sockets_array[i], 1, message_string);
+      server_send_message(sockets_array[i], 1, players_string);
     }
   }
-
 }
