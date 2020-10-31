@@ -64,6 +64,7 @@ void* recv_msg_handler_c1(void *arguments){
     sleep(1);
   }
   while(1){
+    //manejo cuando socket se cierra//
     int msg_code = server_receive_id(args->sockets_clients->socket_c1);
     char* client_message = server_receive_payload(args->sockets_clients->socket_c1);
     printf("El cliente %d dice: %s\n", 1, client_message);

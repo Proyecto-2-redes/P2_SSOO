@@ -22,7 +22,7 @@ int main(int argc, char* argv[]) {
 
     struct arg_struct args;
     args.server_socket = server_socket;
-    args.flag = 0;
+    args.flag = 1;
 
     pthread_t recv_msg_thread;
     pthread_t send_msg_thread;
@@ -30,13 +30,17 @@ int main(int argc, char* argv[]) {
     pthread_create(&recv_msg_thread, NULL, recv_msg_handler, (void *)&args);
     pthread_create(&send_msg_thread, NULL, send_msg_handler, (void *)&args);
 
+    while(args.flag){
+      sleep(1);
+    }
+    printf("Se ha cerrado el juego.\n");
     close(server_socket);
-    free(IP);
     return 0;
 }
 
 
 void* recv_msg_handler(void *arguments){
+  printf("entra\n");
   struct arg_struct *args = (struct arg_struct *)arguments;
   char* message = NULL;
   while(1){
@@ -77,6 +81,7 @@ void* send_msg_handler(void* arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
   char message[LENGTH];
   while(1){
+    sleep(1); //BOORRAR
     fflush(stdout);
     fgets(message, LENGTH, stdin);
     str_trim_lf(message, LENGTH);
