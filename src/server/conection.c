@@ -41,45 +41,62 @@ void* prepare_sockets_and_get_clients(void *arguments) {
     char colors[8][9] = {"rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado"};
 
     while(args->exit){
-      args->sockets_clients->socket_c1 = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
-      sockets_array[0] = args->sockets_clients->socket_c1;
-      message_initial(1, sockets_array, colors);
-      printf("Entro jugador 1\n");
+      if (args->sockets_clients->socket_c1 == 0){
+        args->sockets_clients->socket_c1 = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
+        sockets_array[0] = args->sockets_clients->socket_c1;
+        message_initial(1, sockets_array, colors);
+        printf("Entro jugador 1\n");
+      }
 
-      args->sockets_clients->socket_c2 = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
-      sockets_array[1] = args->sockets_clients->socket_c2;
-      message_initial(2, sockets_array, colors);
-      printf("Entro jugador 2\n");
+      //if socket == 0 and start == 0//
+      if (args->sockets_clients->socket_c2 == 0){
+        args->sockets_clients->socket_c2 = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
+        sockets_array[1] = args->sockets_clients->socket_c2;
+        message_initial(2, sockets_array, colors);
+        printf("Entro jugador 2\n");
+      }
 
-      args->sockets_clients->socket_c3 = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
-      sockets_array[2] = args->sockets_clients->socket_c3;
-      message_initial(3, sockets_array, colors);
-      printf("Entro jugador 3\n");
+      if (args->sockets_clients->socket_c3 == 0){
+        args->sockets_clients->socket_c3 = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
+        sockets_array[2] = args->sockets_clients->socket_c3;
+        message_initial(3, sockets_array, colors);
+        printf("Entro jugador 3\n");
+      }
 
-      args->sockets_clients->socket_c4 = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
-      sockets_array[3] = args->sockets_clients->socket_c4;
-      message_initial(4, sockets_array, colors);
-      printf("Entro jugador 4\n");
+      if (args->sockets_clients->socket_c4 == 0){
+        args->sockets_clients->socket_c4 = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
+        sockets_array[3] = args->sockets_clients->socket_c4;
+        message_initial(4, sockets_array, colors);
+        printf("Entro jugador 4\n");
+      }
 
-      args->sockets_clients->socket_c5 = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
-      sockets_array[4] = args->sockets_clients->socket_c5;
-      message_initial(5, sockets_array, colors);
-      printf("Entro jugador 5\n");
+      if (args->sockets_clients->socket_c5 == 0){
+        args->sockets_clients->socket_c5 = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
+        sockets_array[4] = args->sockets_clients->socket_c5;
+        message_initial(5, sockets_array, colors);
+        printf("Entro jugador 5\n");
+      }
 
-      args->sockets_clients->socket_c6 = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
-      sockets_array[5] = args->sockets_clients->socket_c6;
-      message_initial(6, sockets_array, colors);
-      printf("Entro jugador 6\n");
+      if (args->sockets_clients->socket_c6 == 0){
+        args->sockets_clients->socket_c6 = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
+        sockets_array[5] = args->sockets_clients->socket_c6;
+        message_initial(6, sockets_array, colors);
+        printf("Entro jugador 6\n");
+      }
 
-      args->sockets_clients->socket_c7 = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
-      sockets_array[6] = args->sockets_clients->socket_c7;
-      message_initial(7, sockets_array, colors);
-      printf("Entro jugador 7\n");
+      if (args->sockets_clients->socket_c7 == 0){
+        args->sockets_clients->socket_c7 = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
+        sockets_array[6] = args->sockets_clients->socket_c7;
+        message_initial(7, sockets_array, colors);
+        printf("Entro jugador 7\n");
+      }
 
-      args->sockets_clients->socket_c8 = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
-      sockets_array[7] = args->sockets_clients->socket_c8;
-      message_initial(8, sockets_array, colors);
-      printf("Entro jugador 8\n");
+      if (args->sockets_clients->socket_c8 == 0){
+        args->sockets_clients->socket_c8 = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
+        sockets_array[7] = args->sockets_clients->socket_c8;
+        message_initial(8, sockets_array, colors);
+        printf("Entro jugador 8\n");
+      }
     }
     // Se inicializa una estructura propia para guardar los n°s de sockets de los clientes.
     // Se aceptan a los primeros 8 clientes que lleguen. "accept" retorna el n° de otro socket asignado para la comunicación

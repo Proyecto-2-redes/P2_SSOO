@@ -14,8 +14,8 @@ void str_trim_lf(char* arr, int length);
 
 int main(int argc, char* argv[]) {
     printf("hola, soy client\n");
-    char * IP = "0.0.0.0";
-    int PORT = 8080;
+    char * IP = "0.0.0.0"; //CAMBIAR
+    int PORT = 8080; //CAMBIAR
 
     // Se prepara el socket
     int server_socket = prepare_socket(IP, PORT);
@@ -23,6 +23,7 @@ int main(int argc, char* argv[]) {
     struct arg_struct args;
     args.server_socket = server_socket;
     args.flag = 1;
+
 
     pthread_t recv_msg_thread;
     pthread_t send_msg_thread;
@@ -34,6 +35,7 @@ int main(int argc, char* argv[]) {
       sleep(1);
     }
     printf("Se ha cerrado el juego.\n");
+    free(IP);
     close(server_socket);
     return 0;
 }
@@ -86,11 +88,11 @@ void* send_msg_handler(void* arguments){
     fgets(message, LENGTH, stdin);
     str_trim_lf(message, LENGTH);
     if (strcmp(message, "exit") == 0){
-      args->flag = 1;
+      args->flag = 0;
       break;
     }
     else{
-      client_send_message(args->server_socket, 2, message);
+      client_send_message(args->server_socket, 2, message); //mandar ipk_code con el numero del color asignado
       ///Guardar lo que hay en consola y mandarlo//
       //Asignar que color es client//
     }

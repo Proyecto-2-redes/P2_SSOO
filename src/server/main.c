@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
       sleep(1);
     }
 
+    printf("Se ha cerrado el juego.\n");
     free(sockets_clients);
     return 0;
 }
@@ -60,97 +61,208 @@ int main(int argc, char* argv[]) {
 
 void* recv_msg_handler_c1(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c1 == 0){
-    sleep(1);
-  }
   while(1){
-    //manejo cuando socket se cierra//
-    int msg_code = server_receive_id(args->sockets_clients->socket_c1);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c1);
-    printf("El cliente %d dice: %s\n", 1, client_message);
+    while(args->sockets_clients->socket_c1 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c1);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c1);
+      printf("El cliente %d dice: %s\n", 1, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c1 = 0;
+    printf("Se desconecto 1\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c2(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c2 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c2);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c2);
-    printf("El cliente %d dice: %s\n", 2, client_message);
+    while(args->sockets_clients->socket_c2 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c2);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c2);
+      printf("El cliente %d dice: %s\n", 2, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c2 = 0;
+    printf("Se desconecto 2\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c3(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c3 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c3);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c3);
-    printf("El cliente %d dice: %s\n", 3, client_message);
+    while(args->sockets_clients->socket_c3 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c3);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c3);
+      printf("El cliente %d dice: %s\n", 3, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c3 = 0;
+    printf("Se desconecto 3\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c4(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c4 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c4);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c4);
-    printf("El cliente %d dice: %s\n", 4, client_message);
+    while(args->sockets_clients->socket_c4 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c4);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c4);
+      printf("El cliente %d dice: %s\n", 4, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c4 = 0;
+    printf("Se desconecto 4\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c5(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c5 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c5);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c5);
-    printf("El cliente %d dice: %s\n", 5, client_message);
+    while(args->sockets_clients->socket_c5 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c5);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c5);
+      printf("El cliente %d dice: %s\n", 5, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c5 = 0;
+    printf("Se desconecto 5\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c6(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c6 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c6);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c6);
-    printf("El cliente %d dice: %s\n", 6, client_message);
+    while(args->sockets_clients->socket_c6 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c6);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c6);
+      printf("El cliente %d dice: %s\n", 6, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c6 = 0;
+    printf("Se desconecto 6\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c7(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c7 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c7);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c7);
-    printf("El cliente %d dice: %s\n", 7, client_message);
+    while(args->sockets_clients->socket_c7 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c7);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c7);
+      printf("El cliente %d dice: %s\n", 7, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c7 = 0;
+    printf("Se desconecto 7\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
 
 void* recv_msg_handler_c8(void *arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  while(args->sockets_clients->socket_c8 == 0){
-    sleep(1);
-  }
   while(1){
-    int msg_code = server_receive_id(args->sockets_clients->socket_c8);
-    char* client_message = server_receive_payload(args->sockets_clients->socket_c8);
-    printf("El cliente %d dice: %s\n", 8, client_message);
+    while(args->sockets_clients->socket_c8 == 0){
+      //ARREGLAR BUSY WAITING X OTRO WAITING
+      sleep(1);
+    }
+    //int msg_code = 1;
+    while(1){
+      //FALTA: manejo cuando socket se cierra//
+      int msg_code = server_receive_id(args->sockets_clients->socket_c8);
+      if (msg_code == 0){
+        //Ejecutar exit
+        break;
+      }
+      char* client_message = server_receive_payload(args->sockets_clients->socket_c8);
+      printf("El cliente %d dice: %s\n", 8, client_message);
+      free(client_message);
+    }
+    args->sockets_clients->socket_c8 = 0;
+    printf("Se desconecto 8\n");
+    //Se seconexto cliente 1
   }
+  return NULL;
 }
