@@ -44,7 +44,7 @@ void* prepare_sockets_and_get_clients(void *arguments) {
       if (args->sockets_clients->socket_c1 == 0){
         args->sockets_clients->socket_c1 = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
         sockets_array[0] = args->sockets_clients->socket_c1;
-        message_initial(1, sockets_array, colors);
+        message_initial(1, sockets_array, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
         printf("Entro jugador 1\n");
       }
 
@@ -110,7 +110,7 @@ void message_initial(int player_number, int sockets_array[8], char colors[8][9])
   char players_string[28];
   sprintf(color_string, "Se te asigno el color %s.", colors[player_number-1]);
   sprintf(message_string, "Se ha unido el jugador %s.", colors[player_number-1]);
-  sprintf(players_string, "Hay %i jugadores en la sala.", player_number);
+  sprintf(players_string, "Hay %i jugadores en la sala.", player_number); //ASOCIADO AL ELEMNTOS NO 0 SOCKETS_ARRAY;
 
   server_send_message(sockets_array[player_number-1], 1, welcome);
   server_send_message(sockets_array[player_number-1], 1, color_string);
