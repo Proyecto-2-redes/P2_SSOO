@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     pthread_create(&thread_id_socket_c7, NULL, recv_msg_handler_c7, (void *)&args);
     pthread_create(&thread_id_socket_c8, NULL, recv_msg_handler_c8, (void *)&args);
 
-    while(1){
+    while(args.exit){
       sleep(1);
     }
 

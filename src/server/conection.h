@@ -26,7 +26,7 @@ struct arg_struct {
     int PORT;
     PlayersInfo* sockets_clients;
     int start; //si se inicia o no la partida
-    int exit;
+    int exit; //si alguien hizo exit o no
 };
 
 
