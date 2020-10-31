@@ -6,19 +6,12 @@
 #include "conection.h"
 
 void* recv_msg_handler_c1(void *arguments);
-
 void* recv_msg_handler_c2(void *arguments);
-
 void* recv_msg_handler_c3(void *arguments);
-
 void* recv_msg_handler_c4(void *arguments);
-
 void* recv_msg_handler_c5(void *arguments);
-
 void* recv_msg_handler_c6(void *arguments);
-
 void* recv_msg_handler_c7(void *arguments);
-
 void* recv_msg_handler_c8(void *arguments);
 
 int main(int argc, char* argv[]) {
@@ -56,7 +49,7 @@ int main(int argc, char* argv[]) {
     while(1){
       sleep(1);
     }
-
+    
     free(sockets_clients);
     return 0;
 }
