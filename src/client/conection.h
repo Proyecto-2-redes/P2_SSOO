@@ -15,6 +15,7 @@
 
 struct arg_struct {
     int server_socket;
+    int flag;
 };
 
 int prepare_socket(char * IP, int PORT);

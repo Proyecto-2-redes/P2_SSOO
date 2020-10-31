@@ -4,9 +4,13 @@
 #include "conection.h"
 #include "communication.h"
 
+#define LENGTH 256
+
 void* recv_msg_handler(void *arguments);
 
 void* send_msg_handler(void* arguments);
+
+void str_trim_lf(char* arr, int length);
 
 int main(int argc, char* argv[]) {
     printf("hola, soy client\n");
@@ -18,6 +22,7 @@ int main(int argc, char* argv[]) {
 
     struct arg_struct args;
     args.server_socket = server_socket;
+    args.flag = 0;
 
     pthread_t recv_msg_thread;
     pthread_t send_msg_thread;
@@ -70,10 +75,30 @@ void* recv_msg_handler(void *arguments){
 
 void* send_msg_handler(void* arguments){
   struct arg_struct *args = (struct arg_struct *)arguments;
-  char* message = NULL;
+  char message[LENGTH];
   while(1){
-    ///Guardar lo que hay en consola y mandarlo//
-    //Asignar que color es client//
-    client_send_message(args->server_socket, 2, message)
+    fflush(stdout);
+    fgets(message, LENGTH, stdin);
+    str_trim_lf(message, LENGTH);
+    if (strcmp(message, "exit") == 0){
+      args->flag = 1;
+      break;
+    }
+    else{
+      client_send_message(args->server_socket, 2, message);
+      ///Guardar lo que hay en consola y mandarlo//
+      //Asignar que color es client//
+    }
+    bzero(message, LENGTH);
+  }
+}
+
+void str_trim_lf(char* arr, int length) {
+  int i;
+  for (i = 0; i < length; i++) { // trim \n
+    if (arr[i] == '\n') {
+      arr[i] = '\0';
+      break;
+    }
   }
 }
