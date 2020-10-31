@@ -32,9 +32,12 @@ int main(int argc, char* argv[]) {
     pthread_t thread_id_socket_c8;
 
     struct arg_struct args;
+
     args.IP = IP; //CAMBIAR POR ARGVS QUE RECIBE
     args.PORT = PORT; //CAMBIAR POR ARGVS QUE RECIBE
     args.sockets_clients = sockets_clients;
+    args.start = 0; //partida no se ha iniciado
+    args.exit = 1; //1 es que no se ha salido de la partida
 
     pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, (void *)&args);
     pthread_create(&thread_id_socket_c1, NULL, recv_msg_handler_c1, (void *)&args);
@@ -49,7 +52,7 @@ int main(int argc, char* argv[]) {
     while(1){
       sleep(1);
     }
-    
+
     free(sockets_clients);
     return 0;
 }

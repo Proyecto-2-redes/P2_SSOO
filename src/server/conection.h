@@ -25,6 +25,8 @@ struct arg_struct {
     char* IP;
     int PORT;
     PlayersInfo* sockets_clients;
+    int start; //si se inicia o no la partida
+    int exit;
 };
 
 
