@@ -18,4 +18,4 @@ struct arg_struct {
     int flag;
 };
 
-int prepare_socket(char * IP, int PORT);
+int prepare_socket(char* IP, int PORT);

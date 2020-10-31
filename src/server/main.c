@@ -3,74 +3,74 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "communication.h"
-#include "conection.h"
+#include "connection.h"
 
-void* recv_msg_handler_c1(void *arguments);
-void* recv_msg_handler_c2(void *arguments);
-void* recv_msg_handler_c3(void *arguments);
-void* recv_msg_handler_c4(void *arguments);
-void* recv_msg_handler_c5(void *arguments);
-void* recv_msg_handler_c6(void *arguments);
-void* recv_msg_handler_c7(void *arguments);
-void* recv_msg_handler_c8(void *arguments);
+void* recv_msg_handler_c1(void* arguments);
+void* recv_msg_handler_c2(void* arguments);
+void* recv_msg_handler_c3(void* arguments);
+void* recv_msg_handler_c4(void* arguments);
+void* recv_msg_handler_c5(void* arguments);
+void* recv_msg_handler_c6(void* arguments);
+void* recv_msg_handler_c7(void* arguments);
+void* recv_msg_handler_c8(void* arguments);
 
 int main(int argc, char* argv[]) {
-    printf("hola, soy server\n");
-    char * IP = "0.0.0.0"; //CAMBIAR POR ARGVS QUE RECIBE
-    int PORT = 8080; //CAMBIAR POR ARGVS QUE RECIBE
+  printf("hola, soy server\n");
+  char* IP = "0.0.0.0"; //CAMBIAR POR ARGVS QUE RECIBE
+  int PORT = 8080; //CAMBIAR POR ARGVS QUE RECIBE
 
-    PlayersInfo* sockets_clients = malloc(sizeof(PlayersInfo));
+  PlayersInfo* sockets_clients = malloc(sizeof(PlayersInfo));
 
-    pthread_t thread_id;
-    pthread_t thread_id_socket_c1;
-    pthread_t thread_id_socket_c2;
-    pthread_t thread_id_socket_c3;
-    pthread_t thread_id_socket_c4;
-    pthread_t thread_id_socket_c5;
-    pthread_t thread_id_socket_c6;
-    pthread_t thread_id_socket_c7;
-    pthread_t thread_id_socket_c8;
+  pthread_t thread_id;
+  pthread_t thread_id_socket_c1;
+  pthread_t thread_id_socket_c2;
+  pthread_t thread_id_socket_c3;
+  pthread_t thread_id_socket_c4;
+  pthread_t thread_id_socket_c5;
+  pthread_t thread_id_socket_c6;
+  pthread_t thread_id_socket_c7;
+  pthread_t thread_id_socket_c8;
 
-    struct arg_struct args;
+  struct arg_struct args;
 
-    args.IP = IP; //CAMBIAR POR ARGVS QUE RECIBE
-    args.PORT = PORT; //CAMBIAR POR ARGVS QUE RECIBE
-    args.sockets_clients = sockets_clients;
-    args.start = 0; //partida no se ha iniciado
-    args.exit = 1; //1 es que no se ha salido de la partida
+  args.IP = IP; //CAMBIAR POR ARGVS QUE RECIBE
+  args.PORT = PORT; //CAMBIAR POR ARGVS QUE RECIBE
+  args.sockets_clients = sockets_clients;
+  args.start = 0; //partida no se ha iniciado
+  args.exit = 1; //1 es que no se ha salido de la partida
 
-    pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, (void *)&args);
-    pthread_create(&thread_id_socket_c1, NULL, recv_msg_handler_c1, (void *)&args);
-    pthread_create(&thread_id_socket_c2, NULL, recv_msg_handler_c2, (void *)&args);
-    pthread_create(&thread_id_socket_c3, NULL, recv_msg_handler_c3, (void *)&args);
-    pthread_create(&thread_id_socket_c4, NULL, recv_msg_handler_c4, (void *)&args);
-    pthread_create(&thread_id_socket_c5, NULL, recv_msg_handler_c5, (void *)&args);
-    pthread_create(&thread_id_socket_c6, NULL, recv_msg_handler_c6, (void *)&args);
-    pthread_create(&thread_id_socket_c7, NULL, recv_msg_handler_c7, (void *)&args);
-    pthread_create(&thread_id_socket_c8, NULL, recv_msg_handler_c8, (void *)&args);
+  pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, (void*)&args);
+  pthread_create(&thread_id_socket_c1, NULL, recv_msg_handler_c1, (void*)&args);
+  pthread_create(&thread_id_socket_c2, NULL, recv_msg_handler_c2, (void*)&args);
+  pthread_create(&thread_id_socket_c3, NULL, recv_msg_handler_c3, (void*)&args);
+  pthread_create(&thread_id_socket_c4, NULL, recv_msg_handler_c4, (void*)&args);
+  pthread_create(&thread_id_socket_c5, NULL, recv_msg_handler_c5, (void*)&args);
+  pthread_create(&thread_id_socket_c6, NULL, recv_msg_handler_c6, (void*)&args);
+  pthread_create(&thread_id_socket_c7, NULL, recv_msg_handler_c7, (void*)&args);
+  pthread_create(&thread_id_socket_c8, NULL, recv_msg_handler_c8, (void*)&args);
 
-    while(args.exit){
-      sleep(1);
-    }
+  while (args.exit) {
+    sleep(1);
+  }
 
-    printf("Se ha cerrado el juego.\n");
-    free(sockets_clients);
-    return 0;
+  printf("Se ha cerrado el juego.\n");
+  free(sockets_clients);
+  return 0;
 }
 
 
-void* recv_msg_handler_c1(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c1 == 0){
+void* recv_msg_handler_c1(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c1 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c1);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -85,18 +85,18 @@ void* recv_msg_handler_c1(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c2(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c2 == 0){
+void* recv_msg_handler_c2(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c2 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c2);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -111,18 +111,18 @@ void* recv_msg_handler_c2(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c3(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c3 == 0){
+void* recv_msg_handler_c3(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c3 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c3);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -137,18 +137,18 @@ void* recv_msg_handler_c3(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c4(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c4 == 0){
+void* recv_msg_handler_c4(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c4 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c4);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -163,18 +163,18 @@ void* recv_msg_handler_c4(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c5(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c5 == 0){
+void* recv_msg_handler_c5(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c5 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c5);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -189,18 +189,18 @@ void* recv_msg_handler_c5(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c6(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c6 == 0){
+void* recv_msg_handler_c6(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c6 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c6);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -215,18 +215,18 @@ void* recv_msg_handler_c6(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c7(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c7 == 0){
+void* recv_msg_handler_c7(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c7 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c7);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
@@ -241,18 +241,18 @@ void* recv_msg_handler_c7(void *arguments){
   return NULL;
 }
 
-void* recv_msg_handler_c8(void *arguments){
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  while(1){
-    while(args->sockets_clients->socket_c8 == 0){
+void* recv_msg_handler_c8(void* arguments) {
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  while (1) {
+    while (args->sockets_clients->socket_c8 == 0) {
       //ARREGLAR BUSY WAITING X OTRO WAITING
       sleep(1);
     }
     //int msg_code = 1;
-    while(1){
+    while (1) {
       //FALTA: manejo cuando socket se cierra//
       int msg_code = server_receive_id(args->sockets_clients->socket_c8);
-      if (msg_code == 0){
+      if (msg_code == 0) {
         //Ejecutar exit
         break;
       }
