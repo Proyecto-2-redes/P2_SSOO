@@ -6,6 +6,8 @@
 
 void* recv_msg_handler(void *arguments);
 
+void* send_msg_handler(void* arguments);
+
 int main(int argc, char* argv[]) {
     printf("hola, soy client\n");
     char * IP = "0.0.0.0";
@@ -72,6 +74,6 @@ void* send_msg_handler(void* arguments){
   while(1){
     ///Guardar lo que hay en consola y mandarlo//
     //Asignar que color es client//
-    client_send_message(args->server_socket, int pkg_id, message)
+    client_send_message(args->server_socket, 2, message)
   }
 }
