@@ -14,13 +14,19 @@ typedef struct players_info {
     int socket[8];
 } PlayersInfo;
 
+typedef struct player{
+  //char* COlOR
+  int estado; // 0 = vivo | 1 = expulsado | 2 = eliminado
+  int voto;
+}Player;
+
 struct arg_struct {  ///struct_principal
     char* IP;
     int PORT;
     PlayersInfo* sockets_clients;
     int playing; //si se inicia o no la partida
     int exit; //si alguien hizo exit o no
-    int players[8];
+    Player* players;
 
 };
 
@@ -29,7 +35,6 @@ struct thread_struct {
   int socket_number;
   struct arg_struct* arg_pointer;
 };
-
 
 void* prepare_sockets_and_get_clients(void *arguments);
 

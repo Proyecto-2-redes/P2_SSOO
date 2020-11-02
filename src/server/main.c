@@ -127,12 +127,7 @@ void *recv_msg_handler(void *arguments)
     *args->socket_id = 0;
     char message_string[36];
     char players_string[29];
-    int number_players_connected = 0;
-    for (int i = 0; i < 8; i++){
-      if (args->arg_pointer->sockets_clients->socket[i] != 0){
-        number_players_connected++;
-      }
-    }
+    int number_players_connected = players_connected(args->arg_pointer);
     sprintf(message_string, "Se desconectó el jugador %s.", colors[args->socket_number-1]);
     sprintf(players_string, "Hay %i jugador/es en la sala.", number_players_connected);
     printf("%s\n", message_string);
@@ -182,20 +177,36 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
         else {
           arg_struct->playing = 1;
         }
-
       }
     }
     else if (strcmp(message, "\\exit") == 0){
-      char message_string[36];
-      sprintf(message_string, "Se desconectó el jugador %s.", colors[arg_struct->socket_number-1]);
-      for (int i = 0; i < 8; i++){
-        if (arg_struct->sockets_clients->socket[i] != 0)
-          server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_string);
-      }
+      close(arg_struct->sockets_clients->socket[socket_number-1]);
+      arg_struct->sockets_clients->socket[socket_number-1] = 0;
+      // FALTA: Verificar si se logran los objetivos
     }
     else if (strcmp(message, "\\players") == 0){
       int number_players_connected = players_connected(arg_struct);
-      char * tabla[11 + 15*ny];
+      //char * tabla[11 + 15*number_players_connected];
+      //tabla = }
+      char * header = "Jugadores";
+      server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, header);
+      char* jugador[45];
+      for (int i = 0; i < 8; i++){
+        
+        if (arg_struct->sockets_clients->socket[i] != 0){
+          if (arg_struct->players[i].estado == 0){ 
+            /*
+            apprend al color
+            append al eswtado
+            append al voto
+            append \n
+            append \0
+            */
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, jugador);
+          }
+        }
+      }
+      char * tabla[11 + 45 * number_players_connected];
       /*
       Jugadores:
       [rojo]     estado: eliminado | voto ROJO
@@ -209,7 +220,6 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
     }
     else if (strcmp(message_split, "\\vote") == 0){
       message_split = strtok(NULL, " ");
-      
     }
     else if (strcmp(message_split, "\\kill") == 0){
       message_split = strtok(NULL, " ");
@@ -220,14 +230,22 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
       
     }
     else if (strcmp(message_split, "\\whisper") == 0){
+      printf("Entro whisper\n");
       message_split = strtok(NULL, " ");
+      int result = 0;
       for (int i = 0; i < 8; i++){
-        if (colors[i] == message_split){
+        if (strcmp(colors[i], message_split) == 0){
+          result++;
           message_split = strtok(NULL, " ");
+          char* response = "Mensaje enviado correctamente.";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number-1], 1, response);
           server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
         }
       }
-      
+      if (result == 0){
+        char* response = "El jugador indicado no existe.";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number-1], 1, response);
+      }
     }
     else{
       // manejo de error
