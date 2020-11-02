@@ -182,7 +182,7 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
     else if (strcmp(message, "\\exit") == 0){
       close(arg_struct->sockets_clients->socket[socket_number-1]);
       arg_struct->sockets_clients->socket[socket_number-1] = 0;
-      // FALTA: Verificar si se logran los objetivos
+      // FALTA:  Verificar si se logran los objetivos
     }
     else if (strcmp(message, "\\players") == 0){
       int number_players_connected = players_connected(arg_struct);
@@ -237,8 +237,7 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
         if (strcmp(colors[i], message_split) == 0){
           result++;
           message_split = strtok(NULL, " ");
-          char* response = "Mensaje enviado correctamente.";
-          server_send_message(arg_struct->sockets_clients->socket[socket_number-1], 1, response);
+          server_send_message(arg_struct->sockets_clients->socket[socket_number-1], 1, message_split);
           server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
         }
       }
