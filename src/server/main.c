@@ -7,8 +7,9 @@
 #include "connection.h"
 
 void *recv_msg_handler(void *arguments);
-int players_connected(struct arg_struct* arg_struct);
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct);
+int players_connected(struct arg_struct* arg_struct);
+
 
 int main(int argc, char *argv[])
 {
@@ -160,14 +161,26 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
   if (message[0] == '\\'){
     if (strcmp(message, "\\start") == 0){
       int number_players_connected = players_connected(arg_struct);
-      //manejo cantidad de impostores
-      if (number_players_connected < 3){
-        printf("No se puede\n");
-        char* message_response = "Se requiere un minimo de 3 jugadores para jugar.";
-        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
+      if (strcmp(message, "1") == 0){ //arreglar manejo
+        if (number_players_connected < 3){
+          printf("No se puede\n");
+          char* message_response = "Se requiere un minimo de 3 jugadores para jugar.";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
+        }
+        else {
+          arg_struct->playing = 1;
+        }
       }
-      else {
-        arg_struct->playing = 1;
+      else if (strcmp(message, "2") == 0){
+        if (number_players_connected < 5){
+          printf("No se puede\n");
+          char* message_response = "Se requiere un minimo de 5 jugadores para jugar.";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
+        }
+        else {
+          arg_struct->playing = 1;
+        }
+
       }
     }
     else if (strcmp(message, "\\exit") == 0){
