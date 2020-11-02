@@ -42,7 +42,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
     //REVISAR CONDICIONES
     if (args->sockets_clients->socket[0] == 0 && args->playing == 0) { //
       args->sockets_clients->socket[0] = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[0] = 0;
       }
       else{
@@ -53,7 +53,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
     //if socket == 0 and start == 0//
     if (args->sockets_clients->socket[1] == 0 && args->playing == 0) {
       args->sockets_clients->socket[1] = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[1] = 0;
       }
       else{
@@ -63,7 +63,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[2] == 0 && args->playing == 0) {
       args->sockets_clients->socket[2] = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[2] = 0;
       }
       else{
@@ -73,7 +73,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[3] == 0 && args->playing == 0) {
       args->sockets_clients->socket[3] = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[3] = 0;
       }
       else{
@@ -88,7 +88,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[5] == 0 && args->playing == 0) {
       args->sockets_clients->socket[5] = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[5] = 0;
       }
       else{
@@ -98,7 +98,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[6] == 0 && args->playing == 0) {
       args->sockets_clients->socket[6] = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[6] = 0;
       }
       else{
@@ -108,7 +108,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[7] == 0 && args->playing == 0) {
       args->sockets_clients->socket[7] = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
-      if (args->playing == 1);{
+      if (args->playing == 1){
         args->sockets_clients->socket[7] = 0;
       }
       else{
