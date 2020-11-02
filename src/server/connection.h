@@ -22,6 +22,10 @@ struct arg_struct {
     int exit; //si alguien hizo exit o no
 };
 
+struct thread_struct {
+  int* socket_id;
+  int socket_number;
+};
 
 
 void* prepare_sockets_and_get_clients(void *arguments);
