@@ -147,16 +147,19 @@ void *recv_msg_handler(void *arguments)
 
 
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct){
+  char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
   if (message[0] == '\\'){
     if (strcmp(message, "\\start") == 0){
       int number_players_connected = 0;
       for (int i = 0; i < 8; i++){
-      if (arg_struct->sockets_clients->socket[i] != 0){
-        number_players_connected++;
+        if (arg_struct->sockets_clients->socket[i] != 0){
+          number_players_connected++;
+        }
       }
+      //manejo cantidad de impostores
       if (number_players_connected < 3){
         printf("No se puede\n");
-        char* message_response = "No esta la cantidad suficiente de jugadores.";
+        char* message_response = "Se requiere un minimo de 3 jugadores para jugar.";
         server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
       }
       else {
