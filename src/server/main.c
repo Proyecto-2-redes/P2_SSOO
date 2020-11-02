@@ -145,6 +145,7 @@ void *recv_msg_handler(void *arguments)
   return NULL;
 }
 
+int 
 
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct){
   char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
@@ -170,6 +171,12 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
       
     }
     else if (strcmp(message, "\\players") == 0){
+      for (int i = 0; i < 8; i++){
+        // recorrer todos los players y dar la info
+        if (arg_struct->sockets_clients->socket[i] != 0){
+          number_players_connected++;
+        }
+      }
       
     }
     else if (strcmp(message, "\\vote") == 0){

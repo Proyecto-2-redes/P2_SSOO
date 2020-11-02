@@ -20,6 +20,8 @@ struct arg_struct {  ///struct_principal
     PlayersInfo* sockets_clients;
     int playing; //si se inicia o no la partida
     int exit; //si alguien hizo exit o no
+    int players[8];
+
 };
 
 struct thread_struct {
