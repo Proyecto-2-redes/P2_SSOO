@@ -19,7 +19,6 @@ typedef struct player
   //char* COlOR
   int estado;      // 1 = vivo | 2 = expulsado | 3 = eliminado
   int player_type; // 1 == ruzmate // 2 = impostor
-  int used_spy;    //1 si no se ha usado el spy // 2 si se uso el spy
   int voto;
 } Player;
 
@@ -28,8 +27,9 @@ struct arg_struct
   char *IP;
   int PORT;
   PlayersInfo *sockets_clients;
-  int playing; //si se inicia o no la partida
-  int exit;    //si alguien hizo exit o no
+  int playing;  //si se inicia o no la partida
+  int exit;     //si alguien hizo exit o no
+  int used_spy; //1 si no se ha usado el spy // 2 si se uso el spy
   Player players[8];
 };
 

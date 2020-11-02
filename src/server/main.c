@@ -176,8 +176,10 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         else
         {
           arg_struct->playing = 1;
-          for (int i = 0; i < 8; i++){
-            if(arg_struct->sockets_clients->socket[i] != 0){
+          for (int i = 0; i < 8; i++)
+          {
+            if (arg_struct->sockets_clients->socket[i] != 0)
+            {
               arg_struct->players[i].estado = 1;
               arg_struct->players[i].player_type = 1; //o impostor
               arg_struct->players[i].used_spy = 1;
@@ -197,8 +199,10 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         else
         {
           arg_struct->playing = 1;
-          for (int i = 0; i < 8; i++){
-            if(arg_struct->sockets_clients->socket[i] != 0){
+          for (int i = 0; i < 8; i++)
+          {
+            if (arg_struct->sockets_clients->socket[i] != 0)
+            {
               arg_struct->players[i].estado = 1;
               arg_struct->players[i].player_type = 1; //o impostor
               arg_struct->players[i].used_spy = 1;
@@ -366,14 +370,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, jugador);
         }
       }
-      //char *tabla[11 + 45 * number_players_connected];
-      /*
-      Jugadores:
-      [rojo]     estado: eliminado | voto ROJO
-      [amarillo] estado: EXPULSADO | voto amarillo
-      [rojo]     estado: expulsado | voto ROJO
-      [rojo]     estado: VIVO | voto ROJO
-      */
     }
     else if (strcmp(message_split, "\\vote") == 0)
     {
@@ -385,8 +381,27 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message_split, "\\spy") == 0)
     {
+      printf("Entro SPY\n");
       message_split = strtok(NULL, " ");
+      int result = 0;
+      for (int i = 0; i < 8; i++)
+      {
+        if (message_split != NULL)
+        {
+          if (strcmp(colors[i], message_split) == 0)
+          {
+            result++;
+          }
+        }
+      }
+      if (result == 0)
+      {
+        char *response = "El jugador indicado no existe.";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+      }
+      printf("Se desea espiar al jugador %i\n", result);
     }
+
     else if (strcmp(message_split, "\\whisper") == 0)
     {
       printf("Entro whisper\n");
@@ -394,12 +409,23 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       int result = 0;
       for (int i = 0; i < 8; i++)
       {
-        if (strcmp(colors[i], message_split) == 0)
+        if (message_split != NULL)
         {
-          result++;
-          message_split = strtok(NULL, " ");
-          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_split);
-          server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
+          if (strcmp(colors[i], message_split) == 0)
+          {
+            result++;
+            message_split = strtok(NULL, "\0");
+            if (message_split == NULL)
+            {
+              char *warning = "WARNING: Tiene que escribir un mensaje para realizar el comando WHISPER";
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+            }
+            else
+            {
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_split);
+              server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
+            }
+          }
         }
       }
       if (result == 0)
