@@ -8,8 +8,6 @@
 
 void *recv_msg_handler(void *arguments);
 
-void message_handler(char* message, int socket_number);
-
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct);
 
 int main(int argc, char *argv[])
@@ -123,7 +121,7 @@ void *recv_msg_handler(void *arguments)
       }
       char *client_message = server_receive_payload(*args->socket_id);
       printf("El cliente %d dice: %s\n", args->socket_number, client_message);
-      message_handler(client_message, args->socket_number);
+      message_handler(client_message, args->socket_number, args->arg_pointer);
       free(client_message);
     }
     *args->socket_id = 0;
