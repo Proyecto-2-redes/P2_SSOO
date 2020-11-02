@@ -9,35 +9,39 @@
 #include <netdb.h>
 #include "communication.h"
 
-
-typedef struct players_info {
-    int socket[8];
+typedef struct players_info
+{
+  int socket[8];
 } PlayersInfo;
 
-typedef struct player{
+typedef struct player
+{
   //char* COlOR
-  int estado; // 0 = vivo | 1 = expulsado | 2 = eliminado
+  int estado;      // 1 = vivo | 2 = expulsado | 3 = eliminado
+  int player_type; // 1 == ruzmate // 2 = impostor
+  int used_spy;    //1 si no se ha usado el spy // 2 si se uso el spy
   int voto;
-}Player;
+} Player;
 
-struct arg_struct {  ///struct_principal
-    char* IP;
-    int PORT;
-    PlayersInfo* sockets_clients;
-    int playing; //si se inicia o no la partida
-    int exit; //si alguien hizo exit o no
-    Player* players;
-
+struct arg_struct
+{ ///struct_principal
+  char *IP;
+  int PORT;
+  PlayersInfo *sockets_clients;
+  int playing; //si se inicia o no la partida
+  int exit;    //si alguien hizo exit o no
+  Player players[8];
 };
 
-struct thread_struct {
-  int* socket_id;
+struct thread_struct
+{
+  int *socket_id;
   int socket_number;
-  struct arg_struct* arg_pointer;
+  struct arg_struct *arg_pointer;
 };
 
-void* prepare_sockets_and_get_clients(void *arguments);
+void *prepare_sockets_and_get_clients(void *arguments);
 
-void message_initial(int player_number, struct arg_struct* arguments, char colors[8][9]);
+void message_initial(int player_number, struct arg_struct *arguments, char colors[8][9]);
 
-int number_players_connected (struct arg_struct* arguments);
+int number_players_connected(struct arg_struct *arguments);
