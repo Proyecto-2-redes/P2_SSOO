@@ -126,7 +126,6 @@ void *recv_msg_handler(void *arguments)
     *args->socket_id = 0;
     args->arg_pointer->players[args->socket_number-1].estado = 0;      // 1 = vivo | 2 = expulsado | 3 = eliminado
     args->arg_pointer->players[args->socket_number-1].player_type = 0; // 1 == ruzmate // 2 = impostor
-    args->arg_pointer->players[args->socket_number-1].used_spy = 0;    //1 si no se ha usado el spy // 2 si se uso el spy
     args->arg_pointer->players[args->socket_number-1].voto = 0;
     char message_string[36];
     char players_string[29];
@@ -200,7 +199,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               else{
                 arg_struct->players[i].player_type = 1; //o impostor
               }
-              arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
               server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
               if (arg_struct->players[i].player_type == 1){
