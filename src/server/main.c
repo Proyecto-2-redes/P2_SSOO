@@ -159,9 +159,11 @@ int players_connected(struct arg_struct* arg_struct){
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct){
   char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
   if (message[0] == '\\'){
-    if (strcmp(message, "\\start") == 0){
+    char* message_split = strtok(message, " ");
+    if (strcmp(message_split, "\\start") == 0){
       int number_players_connected = players_connected(arg_struct);
-      if (strcmp(message, "1") == 0){ //arreglar manejo
+      message_split = strtok(NULL, " ");
+      if (strcmp(message_split, "1") == 0){
         if (number_players_connected < 3){
           printf("No se puede\n");
           char* message_response = "Se requiere un minimo de 3 jugadores para jugar.";
@@ -171,7 +173,7 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
           arg_struct->playing = 1;
         }
       }
-      else if (strcmp(message, "2") == 0){
+      else if (strcmp(message_split, "2") == 0){
         if (number_players_connected < 5){
           printf("No se puede\n");
           char* message_response = "Se requiere un minimo de 5 jugadores para jugar.";
@@ -184,24 +186,47 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
       }
     }
     else if (strcmp(message, "\\exit") == 0){
-      
+      char message_string[36];
+      sprintf(message_string, "Se desconectó el jugador %s.", colors[arg_struct->socket_number-1]);
+      for (int i = 0; i < 8; i++){
+        if (arg_struct->sockets_clients->socket[i] != 0)
+          server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_string);
+      }
     }
     else if (strcmp(message, "\\players") == 0){
       int number_players_connected = players_connected(arg_struct);
+      char * tabla[11 + 15*ny];
+      /*
+      Jugadores:
+      [rojo]     estado: eliminado | voto ROJO
+      [amarillo] estado: EXPULSADO | voto amarillo
+      [rojo]     estado: expulsado | voto ROJO
+      [rojo]     estado: VIVO | voto ROJO
+      */
       
       
       
     }
-    else if (strcmp(message, "\\vote") == 0){
+    else if (strcmp(message_split, "\\vote") == 0){
+      message_split = strtok(NULL, " ");
       
     }
-    else if (strcmp(message, "\\kill") == 0){
+    else if (strcmp(message_split, "\\kill") == 0){
+      message_split = strtok(NULL, " ");
       
     }
-    else if (strcmp(message, "\\spy") == 0){
+    else if (strcmp(message_split, "\\spy") == 0){
+      message_split = strtok(NULL, " ");
       
     }
-    else if (strcmp(message, "\\whisper") == 0){
+    else if (strcmp(message_split, "\\whisper") == 0){
+      message_split = strtok(NULL, " ");
+      for (int i = 0; i < 8; i++){
+        if (colors[i] == message_split){
+          message_split = strtok(NULL, " ");
+          server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
+        }
+      }
       
     }
     else{
