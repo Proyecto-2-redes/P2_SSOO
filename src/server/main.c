@@ -127,11 +127,20 @@ void *recv_msg_handler(void *arguments)
     }
     *args->socket_id = 0;
     char message_string[36];
+    char players_string[29];
+    int number_players_connected = 0;
+    for (int i = 0; i < 8; i++){
+      if (args->arg_pointer->sockets_clients->socket[i] != 0){
+        number_players_connected++;
+      }
+    }
     sprintf(message_string, "Se desconectó el jugador %s.", colors[args->socket_number-1]);
+    sprintf(players_string, "Hay %i jugador/es en la sala.", number_players_connected);
     printf("%s\n", message_string);
     for (int i = 0; i < 8; i++){
       if (args->arg_pointer->sockets_clients->socket[i] != 0){
         server_send_message(args->arg_pointer->sockets_clients->socket[i], 1, message_string);
+        server_send_message(args->arg_pointer->sockets_clients->socket[i], 1, players_string);
       }
     }
   }
@@ -140,5 +149,5 @@ void *recv_msg_handler(void *arguments)
 
 
 void message_handler(char* message, int socket_number){
-  printf("hola\n");
+  printf("Entro aca\n");
 }

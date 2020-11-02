@@ -90,7 +90,7 @@ void message_initial(int player_number, struct arg_struct* args, char colors[8][
   char* welcome = "Bienvenido a Among RUZ!!";
   char color_string[34];
   char message_string[34];
-  char players_string[28];
+  char players_string[29];
   int number_players_connected = 0;
   for (int i = 0; i < 8; i++){
     if (args->sockets_clients->socket[i] != 0){
@@ -99,7 +99,7 @@ void message_initial(int player_number, struct arg_struct* args, char colors[8][
   }
   sprintf(color_string, "Se te asigno el color %s.", colors[player_number - 1]);
   sprintf(message_string, "Se ha unido el jugador %s.", colors[player_number - 1]);
-  sprintf(players_string, "Hay %i jugadores en la sala.", number_players_connected);
+  sprintf(players_string, "Hay %i jugador/es en la sala.", number_players_connected);
   server_send_message(args->sockets_clients->socket[player_number - 1], 1, welcome);
   server_send_message(args->sockets_clients->socket[player_number - 1], 1, color_string);
   server_send_message(args->sockets_clients->socket[player_number - 1], 1, players_string);
