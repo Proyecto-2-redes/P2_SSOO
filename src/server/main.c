@@ -9,6 +9,7 @@
 void *recv_msg_handler(void *arguments);
 void message_handler(char *message, int socket_number, struct arg_struct *arg_struct);
 int players_connected(struct arg_struct *arg_struct);
+int* random_numbers(int lower, int upper, int count);
 
 int main(int argc, char *argv[])
 {
@@ -123,6 +124,10 @@ void *recv_msg_handler(void *arguments)
       free(client_message);
     }
     *args->socket_id = 0;
+    args->arg_pointer->players[args->socket_number-1].estado = 0;      // 1 = vivo | 2 = expulsado | 3 = eliminado
+    args->arg_pointer->players[args->socket_number-1].player_type = 0; // 1 == ruzmate // 2 = impostor
+    args->arg_pointer->players[args->socket_number-1].used_spy = 0;    //1 si no se ha usado el spy // 2 si se uso el spy
+    args->arg_pointer->players[args->socket_number-1].voto = 0;
     char message_string[36];
     char players_string[29];
     int number_players_connected = players_connected(args->arg_pointer);
@@ -176,16 +181,40 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         else
         {
           arg_struct->playing = 1;
+<<<<<<< Updated upstream
           for (int i = 0; i < 8; i++)
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
             {
+=======
+          char* start_message = "El juego ha comenzado.";
+          char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
+          char* impostor_message = "Se te ha asignado ser impostor.";
+          int* result = random_numbers(1, number_players_connected, 1);
+          int count = 0;
+          for (int i = 0; i < 8; i++){
+            if(arg_struct->sockets_clients->socket[i] != 0){
+              count++;
+>>>>>>> Stashed changes
               arg_struct->players[i].estado = 1;
-              arg_struct->players[i].player_type = 1; //o impostor
+              if (result[0] == count){
+                arg_struct->players[i].player_type = 2; //o impostor
+              }
+              else{
+                arg_struct->players[i].player_type = 1; //o impostor
+              }
               arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
+              server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
+              if (arg_struct->players[i].player_type == 1){
+                server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
+              }
+              else if (arg_struct->players[i].player_type == 2){
+                server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
+              }
             }
           }
+          free(result);
         }
       }
       else if (strcmp(message_split, "2") == 0)
@@ -199,16 +228,42 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         else
         {
           arg_struct->playing = 1;
+<<<<<<< Updated upstream
           for (int i = 0; i < 8; i++)
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
             {
+=======
+          char* start_message = "El juego ha comenzado.";
+          char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
+          char* impostor_message = "Se te ha asignado ser impostor.";
+          int* result = random_numbers(1, number_players_connected, 2);
+          int count = 0;
+          int count_2 = 0;
+          for (int i = 0; i < 8; i++){
+            if(arg_struct->sockets_clients->socket[i] != 0){
+              count++;
+>>>>>>> Stashed changes
               arg_struct->players[i].estado = 1;
-              arg_struct->players[i].player_type = 1; //o impostor
+              if (result[count_2] == count){
+                arg_struct->players[i].player_type = 2; //o impostor
+                count_2++;
+              }
+              else{
+                arg_struct->players[i].player_type = 1; //o impostor
+              }
               arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
+              server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
+              if (arg_struct->players[i].player_type == 1){
+                server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
+              }
+              else if (arg_struct->players[i].player_type == 2){
+                server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
+              }
             }
           }
+          free(result);
         }
       }
     }
@@ -411,6 +466,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       {
         if (message_split != NULL)
         {
+<<<<<<< Updated upstream
           if (strcmp(colors[i], message_split) == 0)
           {
             result++;
@@ -426,6 +482,12 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
             }
           }
+=======
+          result++;
+          message_split = strtok(NULL, "");
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_split);
+          server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
+>>>>>>> Stashed changes
         }
       }
       if (result == 0)
@@ -449,4 +511,14 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       }
     }
   }
+}
+
+int* random_numbers(int lower, int upper, int count){
+  int* result = malloc(count*sizeof(int));
+  int contador = 0;
+  for (int i = 0; i < count; i++) {
+    int num = (rand() % (upper - lower + 1)) + lower;
+    result[i] = num;
+  }
+  return result;
 }
