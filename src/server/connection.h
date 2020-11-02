@@ -25,6 +25,7 @@ struct arg_struct {
 struct thread_struct {
   int* socket_id;
   int socket_number;
+  struct arg_struct* arg_pointer;
 };
 
 

@@ -8,6 +8,8 @@
 
 void *recv_msg_handler(void *arguments);
 
+void message_handler(char* message, int socket_number);
+
 int main(int argc, char *argv[])
 {
   if (argc != 5)
@@ -51,20 +53,29 @@ int main(int argc, char *argv[])
 
   args_th_1.socket_number = 1;
   args_th_1.socket_id = &args.sockets_clients->socket[0];
+  args_th_1.arg_pointer = &args;
   args_th_2.socket_number = 2;
   args_th_2.socket_id = &args.sockets_clients->socket[1];
+  args_th_2.arg_pointer = &args;
   args_th_3.socket_number = 3;
   args_th_3.socket_id = &args.sockets_clients->socket[2];
+  args_th_3.arg_pointer = &args;
   args_th_4.socket_number = 4;
   args_th_4.socket_id = &args.sockets_clients->socket[3];
+  args_th_4.arg_pointer = &args;
   args_th_5.socket_number = 5;
   args_th_5.socket_id = &args.sockets_clients->socket[4];
+  args_th_5.arg_pointer = &args;
   args_th_6.socket_number = 6;
   args_th_6.socket_id = &args.sockets_clients->socket[5];
+  args_th_6.arg_pointer = &args;
   args_th_7.socket_number = 7;
   args_th_7.socket_id = &args.sockets_clients->socket[6];
+  args_th_7.arg_pointer = &args;
   args_th_8.socket_number = 8;
   args_th_8.socket_id = &args.sockets_clients->socket[7];
+  args_th_8.arg_pointer = &args;
+
 
 
   pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, (void *)&args);
@@ -90,6 +101,7 @@ int main(int argc, char *argv[])
 
 void *recv_msg_handler(void *arguments)
 {
+  char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
   struct thread_struct *args = (struct thread_struct *)arguments;
   while (1)
   {
@@ -110,10 +122,23 @@ void *recv_msg_handler(void *arguments)
       }
       char *client_message = server_receive_payload(*args->socket_id);
       printf("El cliente %d dice: %s\n", args->socket_number, client_message);
+      message_handler(client_message, args->socket_number);
       free(client_message);
     }
     *args->socket_id = 0;
-    printf("Se desconecto %i\n", args->socket_number);
+    char message_string[36];
+    sprintf(message_string, "Se desconectó el jugador %s.", colors[args->socket_number-1]);
+    printf("%s\n", message_string);
+    for (int i = 0; i < 8; i++){
+      if (args->arg_pointer->sockets_clients->socket[i] != 0){
+        server_send_message(args->arg_pointer->sockets_clients->socket[i], 1, message_string);
+      }
+    }
   }
   return NULL;
+}
+
+
+void message_handler(char* message, int socket_number){
+  printf("hola\n");
 }
