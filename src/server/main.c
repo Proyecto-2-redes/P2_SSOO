@@ -186,7 +186,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
             {
-=======
           char* start_message = "El juego ha comenzado.";
           char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
           char* impostor_message = "Se te ha asignado ser impostor.";
@@ -233,7 +232,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
             {
-=======
           char* start_message = "El juego ha comenzado.";
           char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
           char* impostor_message = "Se te ha asignado ser impostor.";
@@ -466,7 +464,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       {
         if (message_split != NULL)
         {
-<<<<<<< Updated upstream
           if (strcmp(colors[i], message_split) == 0)
           {
             result++;
@@ -482,12 +479,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
             }
           }
-=======
-          result++;
-          message_split = strtok(NULL, "");
-          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_split);
-          server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
->>>>>>> Stashed changes
         }
       }
       if (result == 0)
