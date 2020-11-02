@@ -83,7 +83,12 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[4] == 0 && args->playing == 0) {
       args->sockets_clients->socket[4] = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
-      message_initial(5, args, colors);
+      if (args->playing == 1){
+        args->sockets_clients->socket[4] = 0;
+      }
+      else{
+        message_initial(5, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     if (args->sockets_clients->socket[5] == 0 && args->playing == 0) {

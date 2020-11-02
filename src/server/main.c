@@ -147,5 +147,49 @@ void *recv_msg_handler(void *arguments)
 
 
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct){
-  printf("hola\n");
+  if (message[0] == '\\'){
+    if (strcmp(message, "\\start") == 0){
+      int number_players_connected = 0;
+      for (int i = 0; i < 8; i++){
+      if (arg_struct->sockets_clients->socket[i] != 0){
+        number_players_connected++;
+      }
+      if (number_players_connected < 3){
+        printf("No se puede\n");
+        char* message_response = "No esta la cantidad suficiente de jugadores.";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
+      }
+      else {
+        arg_struct->playing = 1;
+      }
+    }
+    else if (strcmp(message, "\\exit") == 0){
+      
+    }
+    else if (strcmp(message, "\\players") == 0){
+      
+    }
+    else if (strcmp(message, "\\vote") == 0){
+      
+    }
+    else if (strcmp(message, "\\kill") == 0){
+      
+    }
+    else if (strcmp(message, "\\spy") == 0){
+      
+    }
+    else if (strcmp(message, "\\whisper") == 0){
+      
+    }
+    else{
+      // manejo de error
+    }
+  }
+  else if (message[0] != '\\'){
+    for (int i = 0; i < 8; i++){
+      if (arg_struct->sockets_clients->socket[i] != 0){
+        server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message);
+      }
+    }
+  }
 }
