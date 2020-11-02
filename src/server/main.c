@@ -382,24 +382,47 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     else if (strcmp(message_split, "\\spy") == 0)
     {
       printf("Entro SPY\n");
-      message_split = strtok(NULL, " ");
-      int result = 0;
-      for (int i = 0; i < 8; i++)
+      // si es que es ruzmate
+      if (arg_struct->players->player_type == 1)
       {
-        if (message_split != NULL)
+        message_split = strtok(NULL, " ");
+        int result = 0;
+        for (int i = 0; i < 8; i++)
         {
-          if (strcmp(colors[i], message_split) == 0)
+          if (message_split != NULL)
           {
-            result++;
+            if (strcmp(colors[i], message_split) == 0)
+            {
+              result++;
+            }
           }
         }
+        // si es que el usuario a espiar existe
+        if (result != 0)
+        {
+          printf("Se desea espiar al jugador %i\n", result);
+          if (arg_struct->used_spy == 1)
+          {
+          }
+          else
+          {
+            printf("ya se trató de usar el spy\n");
+            char *warning = "WARNING: el comando SPY ya fué utilizado";
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+          }
+        }
+
+        else if (result == 0)
+        {
+          char *response = "El jugador indicado no existe.";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+        }
       }
-      if (result == 0)
+      // si el que ejecutó el comando es impostor
+      else
       {
-        char *response = "El jugador indicado no existe.";
-        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+        printf("un impostoir traró de usar el comando spy\n")
       }
-      printf("Se desea espiar al jugador %i\n", result);
     }
 
     else if (strcmp(message_split, "\\whisper") == 0)
