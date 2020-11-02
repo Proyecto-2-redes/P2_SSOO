@@ -181,7 +181,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         else
         {
           arg_struct->playing = 1;
-<<<<<<< Updated upstream
           for (int i = 0; i < 8; i++)
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
@@ -194,7 +193,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           for (int i = 0; i < 8; i++){
             if(arg_struct->sockets_clients->socket[i] != 0){
               count++;
->>>>>>> Stashed changes
               arg_struct->players[i].estado = 1;
               if (result[0] == count){
                 arg_struct->players[i].player_type = 2; //o impostor
@@ -227,7 +225,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         else
         {
           arg_struct->playing = 1;
-<<<<<<< Updated upstream
           for (int i = 0; i < 8; i++)
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
@@ -241,7 +238,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           for (int i = 0; i < 8; i++){
             if(arg_struct->sockets_clients->socket[i] != 0){
               count++;
->>>>>>> Stashed changes
               arg_struct->players[i].estado = 1;
               if (result[count_2] == count){
                 arg_struct->players[i].player_type = 2; //o impostor
