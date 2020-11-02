@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
   args_th_8.arg_pointer = &args;
 
 
-
   pthread_create(&thread_id, NULL, prepare_sockets_and_get_clients, (void *)&args);
 
   pthread_create(&thread_id_socket_c1, NULL, recv_msg_handler, (void *)&args_th_1);

@@ -39,25 +39,46 @@ void* prepare_sockets_and_get_clients(void* arguments) {
   char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
 
   while (args->exit) {
-    if (args->sockets_clients->socket[0] == 0 && args->playing == 0) {
+    //REVISAR CONDICIONES
+    if (args->sockets_clients->socket[0] == 0 && args->playing == 0) { //
       args->sockets_clients->socket[0] = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
-      message_initial(1, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      if (args->playing == 1);{
+        args->sockets_clients->socket[0] = 0;
+      }
+      else{
+        message_initial(1, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     //if socket == 0 and start == 0//
     if (args->sockets_clients->socket[1] == 0 && args->playing == 0) {
       args->sockets_clients->socket[1] = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
-      message_initial(2, args, colors);
+      if (args->playing == 1);{
+        args->sockets_clients->socket[1] = 0;
+      }
+      else{
+        message_initial(2, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     if (args->sockets_clients->socket[2] == 0 && args->playing == 0) {
       args->sockets_clients->socket[2] = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
-      message_initial(3, args, colors);
+      if (args->playing == 1);{
+        args->sockets_clients->socket[2] = 0;
+      }
+      else{
+        message_initial(3, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     if (args->sockets_clients->socket[3] == 0 && args->playing == 0) {
       args->sockets_clients->socket[3] = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
-      message_initial(4, args, colors);
+      if (args->playing == 1);{
+        args->sockets_clients->socket[3] = 0;
+      }
+      else{
+        message_initial(4, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     if (args->sockets_clients->socket[4] == 0 && args->playing == 0) {
@@ -67,17 +88,32 @@ void* prepare_sockets_and_get_clients(void* arguments) {
 
     if (args->sockets_clients->socket[5] == 0 && args->playing == 0) {
       args->sockets_clients->socket[5] = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
-      message_initial(6, args, colors);
+      if (args->playing == 1);{
+        args->sockets_clients->socket[5] = 0;
+      }
+      else{
+        message_initial(6, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     if (args->sockets_clients->socket[6] == 0 && args->playing == 0) {
       args->sockets_clients->socket[6] = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
-      message_initial(7, args, colors);
+      if (args->playing == 1);{
+        args->sockets_clients->socket[6] = 0;
+      }
+      else{
+        message_initial(7, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
 
     if (args->sockets_clients->socket[7] == 0 && args->playing == 0) {
       args->sockets_clients->socket[7] = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
-      message_initial(8, args, colors);
+      if (args->playing == 1);{
+        args->sockets_clients->socket[7] = 0;
+      }
+      else{
+        message_initial(8, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
+      }
     }
   }
   // Se inicializa una estructura propia para guardar los n°s de sockets de los clientes.
