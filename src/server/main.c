@@ -10,6 +10,8 @@ void *recv_msg_handler(void *arguments);
 
 void message_handler(char* message, int socket_number);
 
+void message_handler(char* message, int socket_number, struct arg_struct* arg_struct);
+
 int main(int argc, char *argv[])
 {
   if (argc != 5)
@@ -43,7 +45,6 @@ int main(int argc, char *argv[])
   struct thread_struct args_th_6;
   struct thread_struct args_th_7;
   struct thread_struct args_th_8;
-
 
   args.IP = IP;     //CAMBIAR POR ARGVS QUE RECIBE
   args.PORT = PORT; //CAMBIAR POR ARGVS QUE RECIBE
@@ -148,6 +149,6 @@ void *recv_msg_handler(void *arguments)
 }
 
 
-void message_handler(char* message, int socket_number){
-  printf("Entro aca\n");
+void message_handler(char* message, int socket_number, struct arg_struct* arg_struct){
+  printf("hola\n");
 }

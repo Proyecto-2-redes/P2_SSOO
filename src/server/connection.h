@@ -14,7 +14,7 @@ typedef struct players_info {
     int socket[8];
 } PlayersInfo;
 
-struct arg_struct {
+struct arg_struct {  ///struct_principal
     char* IP;
     int PORT;
     PlayersInfo* sockets_clients;
