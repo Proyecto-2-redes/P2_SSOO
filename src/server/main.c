@@ -7,7 +7,7 @@
 #include "connection.h"
 
 void *recv_msg_handler(void *arguments);
-
+int players_connected(struct arg_struct* arg_struct);
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct);
 
 int main(int argc, char *argv[])
@@ -145,18 +145,21 @@ void *recv_msg_handler(void *arguments)
   return NULL;
 }
 
-int 
+int players_connected(struct arg_struct* arg_struct){
+  int number_players_connected = 0;
+  for (int i = 0; i < 8; i++){
+    if (arg_struct->sockets_clients->socket[i] != 0){
+      number_players_connected++;
+    }
+  }
+  return number_players_connected;
+} 
 
 void message_handler(char* message, int socket_number, struct arg_struct* arg_struct){
   char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
   if (message[0] == '\\'){
     if (strcmp(message, "\\start") == 0){
-      int number_players_connected = 0;
-      for (int i = 0; i < 8; i++){
-        if (arg_struct->sockets_clients->socket[i] != 0){
-          number_players_connected++;
-        }
-      }
+      int number_players_connected = players_connected(arg_struct);
       //manejo cantidad de impostores
       if (number_players_connected < 3){
         printf("No se puede\n");
@@ -171,12 +174,9 @@ void message_handler(char* message, int socket_number, struct arg_struct* arg_st
       
     }
     else if (strcmp(message, "\\players") == 0){
-      for (int i = 0; i < 8; i++){
-        // recorrer todos los players y dar la info
-        if (arg_struct->sockets_clients->socket[i] != 0){
-          number_players_connected++;
-        }
-      }
+      int number_players_connected = players_connected(arg_struct);
+      
+      
       
     }
     else if (strcmp(message, "\\vote") == 0){
