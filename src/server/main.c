@@ -182,7 +182,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             {
               arg_struct->players[i].estado = 1;
               arg_struct->players[i].player_type = 1; //o impostor
-              arg_struct->players[i].used_spy = 1;
+              //arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
             }
           }
@@ -205,7 +205,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             {
               arg_struct->players[i].estado = 1;
               arg_struct->players[i].player_type = 1; //o impostor
-              arg_struct->players[i].used_spy = 1;
+              //arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
             }
           }
@@ -421,7 +421,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       // si el que ejecutó el comando es impostor
       else
       {
-        printf("un impostoir traró de usar el comando spy\n")
+        printf("un impostoir traró de usar el comando spy\n");
       }
     }
 
