@@ -403,6 +403,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           printf("Se desea espiar al jugador %i\n", result);
           if (arg_struct->used_spy == 1)
           {
+            // aca hay que poner que pasa si es que si es valido el spy
           }
           else
           {
@@ -411,7 +412,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
           }
         }
-
         else if (result == 0)
         {
           char *response = "El jugador indicado no existe.";
