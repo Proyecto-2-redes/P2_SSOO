@@ -604,3 +604,29 @@ int *random_numbers(int lower, int upper, int count)
   }
   return result;
 }
+
+int check_game(struct arg_struct *arg_struct){
+  int cantidad_ruzmate_vivos = 0;
+  int cantidad_impostores_vivos = 0;
+  for(int i = 0; i < 8; i++){
+    if (arg_struct->sockets_clients->socket[i] != 0){
+      if (arg_struct->sockets_clients->players[i].estado == 1){
+        if (arg_struct->sockets_clients->players[i].player_type == 1){
+          cantidad_ruzmate_vivos++;
+        }
+        else if (arg_struct->sockets_clients->players[i].player_type == 2){
+          cantidad_impostores_vivos++;
+        }
+      }
+    }
+  }
+  if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0){
+    return 1;
+  }
+  else if(cantidad_impostores_vivos == 0 && cantidad_ruzmate_vivos > 0){
+    return 1;
+  }
+  else {
+    return 0;
+  }
+}
