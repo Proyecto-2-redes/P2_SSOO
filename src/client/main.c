@@ -6,20 +6,20 @@
 
 #define LENGTH 256
 
-void *recv_msg_handler(void *arguments);
+void* recv_msg_handler(void* arguments);
 
-void *send_msg_handler(void *arguments);
+void* send_msg_handler(void* arguments);
 
-void str_trim_lf(char *arr, int length);
+void str_trim_lf(char* arr, int length);
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   if (argc != 5)
   {
     printf("Uso: %s -i <ip_address> -p <tcp_port>\n", argv[0]);
     return EXIT_FAILURE;
   }
-  char *IP = argv[2];
+  char* IP = argv[2];
   int PORT = atoi(argv[4]);
   printf("hola, soy client\n");
 
@@ -33,24 +33,23 @@ int main(int argc, char *argv[])
   pthread_t recv_msg_thread;
   pthread_t send_msg_thread;
 
-  pthread_create(&recv_msg_thread, NULL, recv_msg_handler, (void *)&args);
-  pthread_create(&send_msg_thread, NULL, send_msg_handler, (void *)&args);
+  pthread_create(&recv_msg_thread, NULL, recv_msg_handler, (void*)&args);
+  pthread_create(&send_msg_thread, NULL, send_msg_handler, (void*)&args);
 
   while (args.flag)
   {
     sleep(1);
   }
   printf("Se ha cerrado el juego.\n");
-  free(IP);
   close(server_socket);
   return 0;
 }
 
-void *recv_msg_handler(void *arguments)
+void* recv_msg_handler(void* arguments)
 {
   printf("entra\n");
-  struct arg_struct *args = (struct arg_struct *)arguments;
-  char *message = NULL;
+  struct arg_struct* args = (struct arg_struct*)arguments;
+  char* message = NULL;
   while (1)
   {
     int msg_code = client_receive_id(args->server_socket);
@@ -95,9 +94,9 @@ void *recv_msg_handler(void *arguments)
   free(message);
 }
 
-void *send_msg_handler(void *arguments)
+void* send_msg_handler(void* arguments)
 {
-  struct arg_struct *args = (struct arg_struct *)arguments;
+  struct arg_struct* args = (struct arg_struct*)arguments;
   char message[LENGTH];
   while (1)
   {
@@ -105,7 +104,7 @@ void *send_msg_handler(void *arguments)
     fflush(stdout);
     fgets(message, LENGTH, stdin);
     str_trim_lf(message, LENGTH);
-    if (strcmp(message, "exit") == 0)
+    if (strcmp(message, "\\exit") == 0)
     {
       args->flag = 0;
       break;
@@ -120,7 +119,7 @@ void *send_msg_handler(void *arguments)
   }
 }
 
-void str_trim_lf(char *arr, int length)
+void str_trim_lf(char* arr, int length)
 {
   int i;
   for (i = 0; i < length; i++)
