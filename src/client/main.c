@@ -91,6 +91,38 @@ void *recv_msg_handler(void *arguments)
     {
       printf("[ROSADO]: %s\n", message);
     }
+    else if (msg_code == 10)
+    {
+      printf("[ROJO PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 11)
+    {
+      printf("[NARANJA PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 12)
+    {
+      printf("[AMARILLO PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 13)
+    {
+      printf("[VERDE PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 14)
+    {
+      printf("[CELESTE PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 15)
+    {
+      printf("[AZUL PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 16)
+    {
+      printf("[VIOLETA PRIVADO]: %s\n", message);
+    }
+    else if (msg_code == 17)
+    {
+      printf("[ROSADO PRIVADO]: %s\n", message);
+    }
   }
   free(message);
 }

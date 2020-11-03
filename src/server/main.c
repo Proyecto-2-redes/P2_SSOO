@@ -506,8 +506,8 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             }
             else
             {
-              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], socket_number + 1, message_split);
-              server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], socket_number + 9, message_split);
+              server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 9, message_split);
             }
           }
         }
