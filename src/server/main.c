@@ -9,7 +9,6 @@
 void *recv_msg_handler(void *arguments);
 void message_handler(char *message, int socket_number, struct arg_struct *arg_struct);
 int players_connected(struct arg_struct *arg_struct);
-int* random_numbers(int lower, int upper, int count);
 
 int main(int argc, char *argv[])
 {
@@ -124,9 +123,6 @@ void *recv_msg_handler(void *arguments)
       free(client_message);
     }
     *args->socket_id = 0;
-    args->arg_pointer->players[args->socket_number-1].estado = 0;      // 1 = vivo | 2 = expulsado | 3 = eliminado
-    args->arg_pointer->players[args->socket_number-1].player_type = 0; // 1 == ruzmate // 2 = impostor
-    args->arg_pointer->players[args->socket_number-1].voto = 0;
     char message_string[36];
     char players_string[29];
     int number_players_connected = players_connected(args->arg_pointer);
@@ -184,32 +180,12 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
             {
-          char* start_message = "El juego ha comenzado.";
-          char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
-          char* impostor_message = "Se te ha asignado ser impostor.";
-          int* result = random_numbers(1, number_players_connected, 1);
-          int count = 0;
-          for (int i = 0; i < 8; i++){
-            if(arg_struct->sockets_clients->socket[i] != 0){
-              count++;
               arg_struct->players[i].estado = 1;
-              if (result[0] == count){
-                arg_struct->players[i].player_type = 2; //o impostor
-              }
-              else{
-                arg_struct->players[i].player_type = 1; //o impostor
-              }
+              arg_struct->players[i].player_type = 1; //o impostor
+              //arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
-              server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
-              if (arg_struct->players[i].player_type == 1){
-                server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
-              }
-              else if (arg_struct->players[i].player_type == 2){
-                server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
-              }
             }
           }
-          free(result);
         }
       }
       else if (strcmp(message_split, "2") == 0)
@@ -227,35 +203,12 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           {
             if (arg_struct->sockets_clients->socket[i] != 0)
             {
-          char* start_message = "El juego ha comenzado.";
-          char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
-          char* impostor_message = "Se te ha asignado ser impostor.";
-          int* result = random_numbers(1, number_players_connected, 2);
-          int count = 0;
-          int count_2 = 0;
-          for (int i = 0; i < 8; i++){
-            if(arg_struct->sockets_clients->socket[i] != 0){
-              count++;
               arg_struct->players[i].estado = 1;
-              if (result[count_2] == count){
-                arg_struct->players[i].player_type = 2; //o impostor
-                count_2++;
-              }
-              else{
-                arg_struct->players[i].player_type = 1; //o impostor
-              }
-              arg_struct->players[i].used_spy = 1;
+              arg_struct->players[i].player_type = 1; //o impostor
+              //arg_struct->players[i].used_spy = 1;
               arg_struct->players[i].voto = 1;
-              server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
-              if (arg_struct->players[i].player_type == 1){
-                server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
-              }
-              else if (arg_struct->players[i].player_type == 2){
-                server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
-              }
             }
           }
-          free(result);
         }
       }
     }
@@ -429,24 +382,47 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     else if (strcmp(message_split, "\\spy") == 0)
     {
       printf("Entro SPY\n");
-      message_split = strtok(NULL, " ");
-      int result = 0;
-      for (int i = 0; i < 8; i++)
+      // si es que es ruzmate
+      if (arg_struct->players->player_type == 1)
       {
-        if (message_split != NULL)
+        message_split = strtok(NULL, " ");
+        int result = 0;
+        for (int i = 0; i < 8; i++)
         {
-          if (strcmp(colors[i], message_split) == 0)
+          if (message_split != NULL)
           {
-            result++;
+            if (strcmp(colors[i], message_split) == 0)
+            {
+              result++;
+            }
           }
         }
+        // si es que el usuario a espiar existe
+        if (result != 0)
+        {
+          printf("Se desea espiar al jugador %i\n", result);
+          if (arg_struct->used_spy == 1)
+          {
+            // aca hay que poner que pasa si es que si es valido el spy
+          }
+          else
+          {
+            printf("ya se trató de usar el spy\n");
+            char *warning = "WARNING: el comando SPY ya fué utilizado";
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+          }
+        }
+        else if (result == 0)
+        {
+          char *response = "El jugador indicado no existe.";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+        }
       }
-      if (result == 0)
+      // si el que ejecutó el comando es impostor
+      else
       {
-        char *response = "El jugador indicado no existe.";
-        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+        printf("un impostoir traró de usar el comando spy\n");
       }
-      printf("Se desea espiar al jugador %i\n", result);
     }
 
     else if (strcmp(message_split, "\\whisper") == 0)
@@ -496,14 +472,4 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       }
     }
   }
-}
-
-int* random_numbers(int lower, int upper, int count){
-  int* result = malloc(count*sizeof(int));
-  int contador = 0;
-  for (int i = 0; i < count; i++) {
-    int num = (rand() % (upper - lower + 1)) + lower;
-    result[i] = num;
-  }
-  return result;
 }
