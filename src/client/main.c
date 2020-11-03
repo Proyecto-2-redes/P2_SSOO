@@ -41,7 +41,6 @@ int main(int argc, char* argv[])
     sleep(1);
   }
   printf("Se ha cerrado el juego.\n");
-  free(IP);
   close(server_socket);
   return 0;
 }
