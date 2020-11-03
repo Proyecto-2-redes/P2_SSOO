@@ -476,11 +476,14 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 }
               }
             }
+            // Si el color del argumento es válido
             if (result != 0)
             {
+              // Si el el jugador objetivo es Ruzmate y está vivo
               if (arg_struct->players[result - 1].player_type == 1 && arg_struct->players[result - 1].estado == 1 && socket_number != result)
               {
                 int prob = rand() % 100;
+                // Jugador es eliminado
                 if (prob < 30)
                 {
                   arg_struct->players[result - 1].estado = 0;
@@ -499,6 +502,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                     }
                   }
                 }
+                // Eliminación fallida y aviso individual
                 else if (prob >= 30 && prob < 60)
                 {
                   char result_message[50];
@@ -508,6 +512,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                   sprintf(aviso, "El jugador %s ha intentado matarte.", colors[socket_number - 1]);
                   server_send_message(arg_struct->sockets_clients->socket[result - 1], 1, aviso);
                 }
+                // Eliminación fallida y aviso masivo
                 else
                 {
                   char result_message[50];
@@ -530,14 +535,17 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                     }
                   }
                 }
+                // Se chequean las condiciones para terminar la partida
                 check_game(arg_struct);
               }
+              // Si el jugador objetivo es Impostor o está muerto.
               else
               {
                 char *error = "Estás intentando matar a un jugador no válido.";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, error);
               }
             }
+            // Si el color del argumento es inválido
             else
             {
               char *error = "No ingresaste un color de jugador válido.";
