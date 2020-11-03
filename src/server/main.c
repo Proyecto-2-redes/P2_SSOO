@@ -181,7 +181,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
           char* impostor_message = "Se te ha asignado ser impostor.";
           int* result = random_numbers(1, number_players_connected, 1);
-          printf("Resultado random: %i\n", result[0]);
+          printf("Resultado random 1: %i\n", result[0]);
           int count = 0;
           for (int i = 0; i < 8; i++)
           {
@@ -220,7 +220,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           char* ruzmate_message = "Se te ha asignado ser Ruzmate.";
           char* impostor_message = "Se te ha asignado ser impostor.";
           int* result = random_numbers(1, number_players_connected, 2);
-          printf("Resultado random: %i\n", result[0]);
+          printf("Resultado random 2: %i, %i\n", result[0], result[1]);
           int count = 0;
           int count_2 = 0;
           for (int i = 0; i < 8; i++)
@@ -233,13 +233,13 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               arg_struct->players[i].voto = 1;
               server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
               if (result[count_2] != count){
-                arg_struct->players[i].player_type = 1; //o impostor
+                arg_struct->players[i].player_type = 1; //ruzmate
                 server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
-                count_2++;
               }
               else{
-                arg_struct->players[i].player_type = 2; //o impostor
+                arg_struct->players[i].player_type = 2; //impostor
                 server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
+                count_2++;
               }
             }
           }
@@ -480,7 +480,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             }
             else
             {
-              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_split);
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], socket_number + 1, message_split);
               server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message_split);
             }
           }
@@ -515,6 +515,13 @@ int* random_numbers(int lower, int upper, int count){
   for (int i = 0; i < count; i++) {
     int num = (rand() % (upper - lower + 1)) + lower;
     result[i] = num;
+  }
+  if (result[1] < result[0]){
+    int* result_2 = malloc(count*sizeof(int));
+    result_2[0] = result[1];
+    result_2[1] = result[0];
+    free(result);
+    return result_2;
   }
   return result;
 }
