@@ -633,12 +633,14 @@ int check_game(struct arg_struct *arg_struct)
   if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
   {
     arg_struct->playing = 0;
-    printf("Se termino\n") return 1;
+    printf("Se termino\n")
+    return 1;
   }
   else if (cantidad_impostores_vivos == 0 && cantidad_ruzmate_vivos > 0)
   {
     arg_struct->playing = 0;
-    printf("Se termino") return 1;
+    printf("Se termino");
+    return 1;
   }
   else
   {
