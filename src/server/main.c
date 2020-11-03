@@ -308,7 +308,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
 
           char *estado = "estado: ";
           // para saber el estado
-          arg_struct->players[i].estado = 1;
           if (arg_struct->players[i].estado == 0) // Vivo
           {
             jugador[18] = 'V';
