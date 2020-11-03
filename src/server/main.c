@@ -436,7 +436,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         if (arg_struct->players[socket_number - 1].player_type == 1)
         {
           message_split = strtok(NULL, " ");
-          int result = 20;
+          int result = 0;
           for (int i = 0; i < 8; i++)
           {
             if (message_split != NULL)
@@ -572,6 +572,14 @@ int *random_numbers(int lower, int upper, int count)
       result_2[1] = result[0];
       free(result);
       return result_2;
+    }
+    else if (result[0] == result[1]){
+      if (result[0] == 8){
+        result[0] = 7;
+      }
+      else{
+        result[1]++;
+      }
     }
   }
   return result;
