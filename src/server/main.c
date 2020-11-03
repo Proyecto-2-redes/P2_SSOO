@@ -473,3 +473,20 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
   }
 }
+
+int* random_numbers(int lower, int upper, int count){
+  int* result = malloc(count*sizeof(int));
+  int contador = 0;
+  for (int i = 0; i < count; i++) {
+    int num = (rand() % (upper - lower + 1)) + lower;
+    result[i] = num;
+  }
+  if (result[1] < result[0]){
+    int* result_2 = malloc(count*sizeof(int));
+    result_2[0] = result[1];
+    result_2[1] = result[0];
+    free(result);
+    return result_2;
+  }
+  return result;
+}
