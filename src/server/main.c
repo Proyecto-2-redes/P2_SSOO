@@ -285,158 +285,168 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message, "\\exit") == 0)
     {
-      close(arg_struct->sockets_clients->socket[socket_number - 1]);
-      arg_struct->sockets_clients->socket[socket_number - 1] = 0;
-      check_game(arg_struct);
+      if (arg_struct->players[socket_number - 1].estado == 1)
+      {
+        if (arg_struct->playing == 1)
+        {
+          arg_struct->players[socket_number - 1].estado = 0;
+          check_game(arg_struct);
+        }
+        close(arg_struct->sockets_clients->socket[socket_number - 1]);
+        arg_struct->sockets_clients->socket[socket_number - 1] = 0;
+      }
     }
     else if (strcmp(message, "\\players") == 0)
     {
       //int number_players_connected = players_connected(arg_struct);
       //char * tabla[11 + 15*number_players_connected];
       //tabla = }
-      char *header = "TABLA JUGADORES:";
-      server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, header);
-      char jugador[45];
-      char *color;
-      for (int i = 0; i < 8; i++)
+      if (arg_struct->playing == 1)
       {
-        if (arg_struct->sockets_clients->socket[i] != 0)
+        char *header = "TABLA JUGADORES:";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, header);
+        char jugador[45];
+        char *color;
+        for (int i = 0; i < 8; i++)
         {
-          jugador[44] = '\0';
-          jugador[0] = chars_colors[i][0];
-          jugador[1] = chars_colors[i][1];
-          jugador[2] = chars_colors[i][2];
-          jugador[3] = chars_colors[i][3];
-          jugador[4] = chars_colors[i][4];
-          jugador[5] = chars_colors[i][5];
-          jugador[6] = chars_colors[i][6];
-          jugador[7] = chars_colors[i][7];
-          jugador[8] = chars_colors[i][8];
-          jugador[9] = ' ';
-
-          color = colors[i];
-
-          jugador[10] = 'e';
-          jugador[11] = 's';
-          jugador[12] = 't';
-          jugador[13] = 'a';
-          jugador[14] = 'd';
-          jugador[15] = 'o';
-          jugador[16] = ':';
-          jugador[17] = ' ';
-
-          char *estado = "estado: ";
-          // para saber el estado
-          if (arg_struct->players[i].estado == 1) // Vivo
+          if (arg_struct->sockets_clients->socket[i] != 0)
           {
-            jugador[18] = 'V';
-            jugador[19] = 'I';
-            jugador[20] = 'V';
-            jugador[21] = 'O';
-            jugador[22] = ' ';
-            jugador[23] = ' ';
-            jugador[24] = ' ';
-            jugador[25] = ' ';
-            jugador[26] = ' ';
-            jugador[27] = ' ';
+            jugador[44] = '\0';
+            jugador[0] = chars_colors[i][0];
+            jugador[1] = chars_colors[i][1];
+            jugador[2] = chars_colors[i][2];
+            jugador[3] = chars_colors[i][3];
+            jugador[4] = chars_colors[i][4];
+            jugador[5] = chars_colors[i][5];
+            jugador[6] = chars_colors[i][6];
+            jugador[7] = chars_colors[i][7];
+            jugador[8] = chars_colors[i][8];
+            jugador[9] = ' ';
 
-            char *vivo = "VIVO";
-            char *loquequeda;
-            //printf("####estado: %s, %p\n", estado, &estado);
-            //printf("####vivo: %s, %p\n", vivo, &vivo);
-            //loquequeda = strcat(estado, vivo);
-            //printf("loquequeda: %s\n", loquequeda);
+            color = colors[i];
+
+            jugador[10] = 'e';
+            jugador[11] = 's';
+            jugador[12] = 't';
+            jugador[13] = 'a';
+            jugador[14] = 'd';
+            jugador[15] = 'o';
+            jugador[16] = ':';
+            jugador[17] = ' ';
+
+            char *estado = "estado: ";
+            // para saber el estado
+            if (arg_struct->players[i].estado == 1) // Vivo
+            {
+              jugador[18] = 'V';
+              jugador[19] = 'I';
+              jugador[20] = 'V';
+              jugador[21] = 'O';
+              jugador[22] = ' ';
+              jugador[23] = ' ';
+              jugador[24] = ' ';
+              jugador[25] = ' ';
+              jugador[26] = ' ';
+              jugador[27] = ' ';
+
+              char *vivo = "VIVO";
+              char *loquequeda;
+              //printf("####estado: %s, %p\n", estado, &estado);
+              //printf("####vivo: %s, %p\n", vivo, &vivo);
+              //loquequeda = strcat(estado, vivo);
+              //printf("loquequeda: %s\n", loquequeda);
+            }
+            else if (arg_struct->players[i].estado == 2) // expulsado
+            {
+              jugador[18] = 'E';
+              jugador[19] = 'X';
+              jugador[20] = 'P';
+              jugador[21] = 'U';
+              jugador[22] = 'L';
+              jugador[23] = 'S';
+              jugador[24] = 'A';
+              jugador[25] = 'D';
+              jugador[26] = 'O';
+              jugador[27] = ' ';
+
+              char *expulsado = "EXPULSADO";
+              //strcat(estado, expulsado);
+            }
+            else if (arg_struct->players[i].estado == 3) // eLIMINADO
+            {
+              jugador[18] = 'E';
+              jugador[19] = 'L';
+              jugador[20] = 'I';
+              jugador[21] = 'M';
+              jugador[22] = 'I';
+              jugador[23] = 'N';
+              jugador[24] = 'A';
+              jugador[25] = 'D';
+              jugador[26] = 'O';
+              jugador[27] = ' ';
+
+              //strcat(estado, "ELIMINADO");
+            }
+            // voto
+            jugador[28] = 'v';
+            jugador[29] = 'o';
+            jugador[30] = 't';
+            jugador[31] = 'o';
+            jugador[32] = ':';
+            jugador[33] = ' ';
+
+            char *voto = "voto:";
+
+            // si está vivo
+            arg_struct->players[i]
+                .voto = 2;
+            if (arg_struct->players[i].estado == 0)
+            {
+              // el jugador por el que votó va a estar guardado como int en el struct players
+              jugador[34] = chars_colors[arg_struct->players[i].voto][0];
+              jugador[35] = chars_colors[arg_struct->players[i].voto][1];
+              jugador[36] = chars_colors[arg_struct->players[i].voto][2];
+              jugador[37] = chars_colors[arg_struct->players[i].voto][3];
+              jugador[38] = chars_colors[arg_struct->players[i].voto][4];
+              jugador[39] = chars_colors[arg_struct->players[i].voto][5];
+              jugador[40] = chars_colors[arg_struct->players[i].voto][6];
+              jugador[41] = chars_colors[arg_struct->players[i].voto][7];
+              jugador[42] = chars_colors[arg_struct->players[i].voto][8];
+              jugador[43] = ' ';
+
+              //strcat(voto, colors[i]);
+            }
+            // si ya no sigue jugando:
+            else if (arg_struct->players[i].estado != 0)
+            {
+              jugador[34] = '-';
+              jugador[35] = '-';
+              jugador[36] = '-';
+              jugador[37] = '-';
+              jugador[38] = '-';
+              jugador[39] = '-';
+              jugador[40] = '-';
+              jugador[41] = '-';
+              jugador[42] = '-';
+              jugador[43] = ' ';
+
+              //strcat(voto, "---------");
+            }
+            /*
+            for (int i = 0; i < 45; i++)
+            {
+              printf("%c", jugador[i]);
+            }
+            printf("\n");
+            printf("%s\n", jugador);
+            */
+            //printf('jugador completo: %s\n', jugador);
+            //char *jugador2 = " ";
+            //strcat(jugador2, color);
+            //strcat(jugador2, estado);
+            //strcat(jugador2, voto);
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, jugador);
           }
-          else if (arg_struct->players[i].estado == 2) // expulsado
-          {
-            jugador[18] = 'E';
-            jugador[19] = 'X';
-            jugador[20] = 'P';
-            jugador[21] = 'U';
-            jugador[22] = 'L';
-            jugador[23] = 'S';
-            jugador[24] = 'A';
-            jugador[25] = 'D';
-            jugador[26] = 'O';
-            jugador[27] = ' ';
-
-            char *expulsado = "EXPULSADO";
-            //strcat(estado, expulsado);
-          }
-          else if (arg_struct->players[i].estado == 3) // eLIMINADO
-          {
-            jugador[18] = 'E';
-            jugador[19] = 'L';
-            jugador[20] = 'I';
-            jugador[21] = 'M';
-            jugador[22] = 'I';
-            jugador[23] = 'N';
-            jugador[24] = 'A';
-            jugador[25] = 'D';
-            jugador[26] = 'O';
-            jugador[27] = ' ';
-
-            //strcat(estado, "ELIMINADO");
-          }
-          // voto
-          jugador[28] = 'v';
-          jugador[29] = 'o';
-          jugador[30] = 't';
-          jugador[31] = 'o';
-          jugador[32] = ':';
-          jugador[33] = ' ';
-
-          char *voto = "voto:";
-
-          // si está vivo
-          arg_struct->players[i]
-              .voto = 2;
-          if (arg_struct->players[i].estado == 0)
-          {
-            // el jugador por el que votó va a estar guardado como int en el struct players
-            jugador[34] = chars_colors[arg_struct->players[i].voto][0];
-            jugador[35] = chars_colors[arg_struct->players[i].voto][1];
-            jugador[36] = chars_colors[arg_struct->players[i].voto][2];
-            jugador[37] = chars_colors[arg_struct->players[i].voto][3];
-            jugador[38] = chars_colors[arg_struct->players[i].voto][4];
-            jugador[39] = chars_colors[arg_struct->players[i].voto][5];
-            jugador[40] = chars_colors[arg_struct->players[i].voto][6];
-            jugador[41] = chars_colors[arg_struct->players[i].voto][7];
-            jugador[42] = chars_colors[arg_struct->players[i].voto][8];
-            jugador[43] = ' ';
-
-            //strcat(voto, colors[i]);
-          }
-          // si ya no sigue jugando:
-          else if (arg_struct->players[i].estado != 0)
-          {
-            jugador[34] = '-';
-            jugador[35] = '-';
-            jugador[36] = '-';
-            jugador[37] = '-';
-            jugador[38] = '-';
-            jugador[39] = '-';
-            jugador[40] = '-';
-            jugador[41] = '-';
-            jugador[42] = '-';
-            jugador[43] = ' ';
-
-            //strcat(voto, "---------");
-          }
-          /*
-          for (int i = 0; i < 45; i++)
-          {
-            printf("%c", jugador[i]);
-          }
-          printf("\n");
-          printf("%s\n", jugador);
-          */
-          //printf('jugador completo: %s\n', jugador);
-          //char *jugador2 = " ";
-          //strcat(jugador2, color);
-          //strcat(jugador2, estado);
-          //strcat(jugador2, voto);
-          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, jugador);
         }
       }
     }
@@ -446,125 +456,232 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message_split, "\\kill") == 0)
     {
-      message_split = strtok(NULL, " ");
-    }
-    else if (strcmp(message_split, "\\spy") == 0)
-    {
-      if (arg_struct->playing == 1)
+      if (arg_struct->players[socket_number - 1].estado == 1)
       {
-        printf("Entro SPY\n");
-        // si es que es ruzmate
-        if (arg_struct->players[socket_number - 1].player_type == 1)
+        // Si se inició la partida
+        if (arg_struct->playing == 1)
         {
-          message_split = strtok(NULL, " ");
-          int result = 0;
-          for (int i = 0; i < 8; i++)
+          // Si es Impostor
+          if (arg_struct->players[socket_number - 1].player_type == 2)
           {
+            message_split = strtok(NULL, " ");
+            int result = 0;
             if (message_split != NULL)
             {
-              if (strcmp(colors[i], message_split) == 0)
+              for (int i = 0; i < 8; i++)
               {
-                result = i + 1;
+                if (strcmp(colors[i], message_split) == 0)
+                {
+                  result = i + 1;
+                }
               }
             }
-          }
-          // si es que el usuario a espiar existe
-          //ARREGLAR SELECCION NUMERO JUGADOR
-          if (result != 0)
-          {
-            printf("Se desea espiar al jugador %i\n", result);
-            if (arg_struct->used_spy == 1)
+            if (result != 0)
             {
-              arg_struct->used_spy = 2;
-              printf("Se uso el spy\n");
-              char result_message[35];
-              if (arg_struct->players[result - 1].player_type == 1)
+              if (arg_struct->players[result - 1].player_type == 1 && arg_struct->players[result - 1].estado == 1 && socket_number != result)
               {
-                sprintf(result_message, "El jugador %s es Ruzmate.", colors[result - 1]);
-                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
+                int prob = rand() % 100;
+                if (prob < 30)
+                {
+                  arg_struct->players[result - 1].estado = 0;
+                  char result_message[50];
+                  for (int i = 0; i < 8; i++)
+                  {
+                    if (arg_struct->sockets_clients->socket[i] == result + 3)
+                    {
+                      sprintf(result_message, "Haz sido eliminado.");
+                      server_send_message(arg_struct->sockets_clients->socket[i], 1, result_message);
+                    }
+                    else if (arg_struct->sockets_clients->socket[i] != 0)
+                    {
+                      sprintf(result_message, "El jugador %s ha sido eliminado.", colors[result - 1]);
+                      server_send_message(arg_struct->sockets_clients->socket[i], 1, result_message);
+                    }
+                  }
+                }
+                else if (prob >= 30 && prob < 60)
+                {
+                  char result_message[50];
+                  sprintf(result_message, "Has fallado intentando eliminar al jugador %s.", colors[result - 1]);
+                  server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
+                  char aviso[50];
+                  sprintf(aviso, "El jugador %s ha intentado matarte.", colors[socket_number - 1]);
+                  server_send_message(arg_struct->sockets_clients->socket[result - 1], 1, aviso);
+                }
+                else
+                {
+                  char result_message[50];
+                  for (int i = 0; i < 8; i++)
+                  {
+                    if (arg_struct->sockets_clients->socket[i] == socket_number + 3)
+                    {
+                      sprintf(result_message, "Has fallado intentando eliminar al jugador %s.", colors[result - 1]);
+                      server_send_message(arg_struct->sockets_clients->socket[i], 1, result_message);
+                    }
+                    else if (arg_struct->sockets_clients->socket[i] == result + 3)
+                    {
+                      sprintf(result_message, "Han intentado matarte.");
+                      server_send_message(arg_struct->sockets_clients->socket[i], 1, result_message);
+                    }
+                    else if (arg_struct->sockets_clients->socket[i] != 0)
+                    {
+                      sprintf(result_message, "Han intentado eliminar al jugador %s.", colors[result - 1]);
+                      server_send_message(arg_struct->sockets_clients->socket[i], 1, result_message);
+                    }
+                  }
+                }
+                check_game(arg_struct);
               }
-              else if (arg_struct->players[result - 1].player_type == 2)
+              else
               {
-                sprintf(result_message, "El jugador %s es impostor!", colors[result - 1]);
-                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
+                char *error = "Estás intentando matar a un jugador no válido.";
+                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, error);
               }
             }
-            // si ya se usó el spy
             else
             {
-              printf("ya se trató de usar el spy\n");
-              char *warning = "WARNING: el comando SPY ya fué utilizado";
-              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+              char *error = "No ingresaste un color de jugador válido.";
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, error);
             }
           }
-          // si no existe el jugador indicado
-          else if (result == 0)
+          // Si es Ruzmate
+          else if (arg_struct->players[socket_number - 1].player_type == 1)
           {
-            char *response = "El jugador indicado no existe.";
+            char *response = "No puedes usar Kill siendo Ruzmate.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
         }
-        // si el que ejecutó el comando es impostor
-        else if (arg_struct->players[socket_number - 1].player_type == 2)
+        // Si no se ha iniciado la partida todavia
+        else
         {
-          char *response = "No puedes usar Spy siendo impostor.";
-          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+          char *warning = "Se debe iniciar partida para poder usar Kill";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
         }
       }
-      // si no se a iniciado la partida todavia
-      else
+    }
+    else if (strcmp(message_split, "\\spy") == 0)
+    {
+      if (arg_struct->players[socket_number - 1].estado == 1)
       {
-        char *warning = "Se debe iniciar partida para poder usar spy";
-        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+        if (arg_struct->playing == 1)
+        {
+          printf("Entro SPY\n");
+          // si es que es ruzmate
+          if (arg_struct->players[socket_number - 1].player_type == 1)
+          {
+            message_split = strtok(NULL, " ");
+            int result = 0;
+            for (int i = 0; i < 8; i++)
+            {
+              if (message_split != NULL)
+              {
+                if (strcmp(colors[i], message_split) == 0)
+                {
+                  result = i + 1;
+                }
+              }
+            }
+            // si es que el usuario a espiar existe
+            //ARREGLAR SELECCION NUMERO JUGADOR
+            if (result != 0)
+            {
+              printf("Se desea espiar al jugador %i\n", result);
+              if (arg_struct->used_spy == 1)
+              {
+                arg_struct->used_spy = 2;
+                printf("Se uso el spy\n");
+                char result_message[35];
+                if (arg_struct->players[result - 1].player_type == 1)
+                {
+                  sprintf(result_message, "El jugador %s es Ruzmate.", colors[result - 1]);
+                  server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
+                }
+                else if (arg_struct->players[result - 1].player_type == 2)
+                {
+                  sprintf(result_message, "El jugador %s es impostor!", colors[result - 1]);
+                  server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
+                }
+              }
+              // si ya se usó el spy
+              else
+              {
+                printf("ya se trató de usar el spy\n");
+                char *warning = "WARNING: el comando SPY ya fué utilizado";
+                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+              }
+            }
+            // si no existe el jugador indicado
+            else if (result == 0)
+            {
+              char *response = "El jugador indicado no existe.";
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+            }
+          }
+          // si el que ejecutó el comando es impostor
+          else if (arg_struct->players[socket_number - 1].player_type == 2)
+          {
+            char *response = "No puedes usar Spy siendo impostor.";
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+          }
+        }
+        // si no se a iniciado la partida todavia
+        else
+        {
+          char *warning = "Se debe iniciar partida para poder usar spy";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
+        }
       }
     }
 
     else if (strcmp(message_split, "\\whisper") == 0)
     {
-      printf("Entro whisper\n");
-      message_split = strtok(NULL, " ");
-      int result = 0;
-      for (int i = 0; i < 8; i++)
+      if (arg_struct->players[socket_number - 1].estado == 1)
       {
-        if (message_split != NULL)
+        printf("Entro whisper\n");
+        message_split = strtok(NULL, " ");
+        int result = 0;
+        for (int i = 0; i < 8; i++)
         {
-          if (strcmp(colors[i], message_split) == 0)
+          if (message_split != NULL)
           {
-            result++;
-            message_split = strtok(NULL, "\0");
-            if (message_split == NULL)
+            if (strcmp(colors[i], message_split) == 0)
             {
-              char *warning = "WARNING: Tiene que escribir un mensaje para realizar el comando WHISPER";
-              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
-            }
-            else
-            {
-              if (arg_struct->sockets_clients->socket[i] != 0)
+              result++;
+              message_split = strtok(NULL, "\0");
+              if (message_split == NULL)
               {
-                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], socket_number + 9, message_split);
-                server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 9, message_split);
+                char *warning = "WARNING: Tiene que escribir un mensaje para realizar el comando WHISPER";
+                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
               }
               else
               {
-                char *response = "El jugador no esta conectado.";
-                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+                if (arg_struct->sockets_clients->socket[i] != 0)
+                {
+                  server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], socket_number + 9, message_split);
+                  server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 9, message_split);
+                }
+                else
+                {
+                  char *response = "El jugador no esta conectado.";
+                  server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+                }
               }
             }
           }
         }
-      }
-      if (result == 0)
-      {
-        char *response = "El jugador indicado no existe.";
-        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+        if (result == 0)
+        {
+          char *response = "El jugador indicado no existe.";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+        }
       }
     }
     else
     {
       // manejo de error
     }
-  } //tetrmina spy
-  else if (message[0] != '\\')
+  }
+  else if (message[0] != '\\' && arg_struct->players[socket_number - 1].estado == 1)
   {
     for (int i = 0; i < 8; i++)
     {
@@ -633,13 +750,21 @@ int check_game(struct arg_struct *arg_struct)
   if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
   {
     arg_struct->playing = 0;
-    printf("Se termino\n");
+    char *win = "Los Impostores ganan la partida";
+    for (int i = 0; i < 8; i++)
+    {
+      server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+    }
     return 1;
   }
   else if (cantidad_impostores_vivos == 0 && cantidad_ruzmate_vivos > 0)
   {
     arg_struct->playing = 0;
-    printf("Se termino");
+    char *win = "Los Ruzmates ganan la partida";
+    for (int i = 0; i < 8; i++)
+    {
+      server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+    }
     return 1;
   }
   else
