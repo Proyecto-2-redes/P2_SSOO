@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
   args.sockets_clients = sockets_clients;
   args.playing = 0; //partida no se ha iniciado
   args.exit = 1;    //1 es que no se ha salido de la partida
+  args.used_spy = 1;
 
   args_th_1.socket_number = 1;
   args_th_1.socket_id = &args.sockets_clients->socket[0];
@@ -433,11 +434,17 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           }
         }
         // si es que el usuario a espiar existe
+        //ARREGLAR SELECCION NUMERO JUGADOR
         if (result != 0)
         {
           printf("Se desea espiar al jugador %i\n", result);
           if (arg_struct->used_spy == 1)
           {
+            arg_struct->used_spy = 2;
+            printf("Se uso el spy\n");
+            char result_message[30];
+            sprintf(result_message, "El jugador %s es %i.", colors[result-1], arg_struct->players[result-1].player_type);
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
             // aca hay que poner que pasa si es que si es valido el spy
           }
           else
@@ -456,7 +463,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       // si el que ejecutó el comando es impostor
       else
       {
-        printf("un impostoir traró de usar el comando spy\n");
+        printf("un impostor traró de usar el comando spy\n");
       }
     }
 
@@ -516,12 +523,14 @@ int* random_numbers(int lower, int upper, int count){
     int num = (rand() % (upper - lower + 1)) + lower;
     result[i] = num;
   }
-  if (result[1] < result[0]){
-    int* result_2 = malloc(count*sizeof(int));
-    result_2[0] = result[1];
-    result_2[1] = result[0];
-    free(result);
-    return result_2;
+  if (count == 2){
+    if (result[1] < result[0]){
+      int* result_2 = malloc(count*sizeof(int));
+      result_2[0] = result[1];
+      result_2[1] = result[0];
+      free(result);
+      return result_2;
+    }
   }
   return result;
 }
