@@ -136,16 +136,13 @@ void *send_msg_handler(void *arguments)
     fflush(stdout);
     fgets(message, LENGTH, stdin);
     str_trim_lf(message, LENGTH);
+    client_send_message(args->server_socket, 2, message); //mandar ipk_code con el numero del color asignado
+    ///Guardar lo que hay en consola y mandarlo//
+    //Asignar que color es client//
     if (strcmp(message, "\\exit") == 0)
     {
       args->flag = 0;
       break;
-    }
-    else
-    {
-      client_send_message(args->server_socket, 2, message); //mandar ipk_code con el numero del color asignado
-      ///Guardar lo que hay en consola y mandarlo//
-      //Asignar que color es client//
     }
     bzero(message, LENGTH);
   }
