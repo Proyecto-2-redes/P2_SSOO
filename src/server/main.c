@@ -168,90 +168,111 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     char *message_split = strtok(message, " ");
     if (strcmp(message_split, "\\start") == 0)
     {
+      // si el juuego no ha comenzado todavía
       if (arg_struct->playing == 0)
       {
         int number_players_connected = players_connected(arg_struct);
         message_split = strtok(NULL, " ");
-        if (strcmp(message_split, "1") == 0)
+        // si no se indicó la cantidad de jugadores
+        if (!message_split)
         {
-          if (number_players_connected < 3)
-          {
-            printf("No se puede\n");
-            char *message_response = "Se requiere un minimo de 3 jugadores para jugar.";
-            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
-          }
-          else
-          {
-            arg_struct->playing = 1;
-            char *start_message = "El juego ha comenzado.";
-            char *ruzmate_message = "Se te ha asignado ser Ruzmate.";
-            char *impostor_message = "Se te ha asignado ser impostor.";
-            int *result = random_numbers(1, number_players_connected, 1);
-            printf("Resultado random 1: %i\n", result[0]);
-            int count = 0;
-            for (int i = 0; i < 8; i++)
-            {
-              count++;
-              if (arg_struct->sockets_clients->socket[i] != 0)
-              {
-                arg_struct->players[i].estado = 1;
-                arg_struct->players[i].voto = 1;
-                server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
-                if (result[0] != count)
-                {
-                  arg_struct->players[i].player_type = 1; //ruzmate
-                  server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
-                }
-                else
-                {
-                  arg_struct->players[i].player_type = 2; //o impostor
-                  server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
-                }
-              }
-            }
-            free(result);
-          }
+          printf("Se ingresó mal el mensaje, faltó la cantidad de jugadores\n");
+          char *warning = "WARNING indique correctamente la cantidad de impostores";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
         }
-        else if (strcmp(message_split, "2") == 0)
+        // si se indicó la cantidad de impostores
+        if (message_split)
         {
-          if (number_players_connected < 5)
+          // si se indica un impostor
+          if (strcmp(message_split, "1") == 0)
           {
-            printf("No se puede\n");
-            char *message_response = "Se requiere un minimo de 5 jugadores para jugar.";
-            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
-          }
-          else
-          {
-            arg_struct->playing = 1;
-            char *start_message = "El juego ha comenzado.";
-            char *ruzmate_message = "Se te ha asignado ser Ruzmate.";
-            char *impostor_message = "Se te ha asignado ser impostor.";
-            int *result = random_numbers(1, number_players_connected, 2);
-            printf("Resultado random 2: %i, %i\n", result[0], result[1]);
-            int count = 0;
-            int count_2 = 0;
-            for (int i = 0; i < 8; i++)
+            if (number_players_connected < 3)
             {
-              count++;
-              if (arg_struct->sockets_clients->socket[i] != 0)
+              printf("No se puede\n");
+              char *message_response = "WARNING Se requiere un minimo de 3 jugadores para jugar.";
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
+            }
+            else
+            {
+              arg_struct->playing = 1;
+              char *start_message = "El juego ha comenzado.";
+              char *ruzmate_message = "Se te ha asignado ser Ruzmate.";
+              char *impostor_message = "Se te ha asignado ser impostor.";
+              int *result = random_numbers(1, number_players_connected, 1);
+              printf("Resultado random 1: %i\n", result[0]);
+              int count = 0;
+              for (int i = 0; i < 8; i++)
               {
-                arg_struct->players[i].estado = 1;
-                arg_struct->players[i].voto = 1;
-                server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
-                if (result[count_2] != count)
+                count++;
+                if (arg_struct->sockets_clients->socket[i] != 0)
                 {
-                  arg_struct->players[i].player_type = 1; //ruzmate
-                  server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
-                }
-                else
-                {
-                  arg_struct->players[i].player_type = 2; //impostor
-                  server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
-                  count_2++;
+                  arg_struct->players[i].estado = 1;
+                  arg_struct->players[i].voto = 1;
+                  server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
+                  if (result[0] != count)
+                  {
+                    arg_struct->players[i].player_type = 1; //ruzmate
+                    server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
+                  }
+                  else
+                  {
+                    arg_struct->players[i].player_type = 2; //o impostor
+                    server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
+                  }
                 }
               }
+              free(result);
             }
-            free(result);
+          }
+          // si se indican 2 impostores
+          else if (strcmp(message_split, "2") == 0)
+          {
+            if (number_players_connected < 5)
+            {
+              printf("No se puede\n");
+              char *message_response = "Se requiere un minimo de 5 jugadores para jugar.";
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
+            }
+            else
+            {
+              arg_struct->playing = 1;
+              char *start_message = "El juego ha comenzado.";
+              char *ruzmate_message = "Se te ha asignado ser Ruzmate.";
+              char *impostor_message = "Se te ha asignado ser impostor.";
+              int *result = random_numbers(1, number_players_connected, 2);
+              printf("Resultado random 2: %i, %i\n", result[0], result[1]);
+              int count = 0;
+              int count_2 = 0;
+              for (int i = 0; i < 8; i++)
+              {
+                count++;
+                if (arg_struct->sockets_clients->socket[i] != 0)
+                {
+                  arg_struct->players[i].estado = 1;
+                  arg_struct->players[i].voto = 1;
+                  server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
+                  if (result[count_2] != count)
+                  {
+                    arg_struct->players[i].player_type = 1; //ruzmate
+                    server_send_message(arg_struct->sockets_clients->socket[i], 1, ruzmate_message);
+                  }
+                  else
+                  {
+                    arg_struct->players[i].player_type = 2; //impostor
+                    server_send_message(arg_struct->sockets_clients->socket[i], 1, impostor_message);
+                    count_2++;
+                  }
+                }
+              }
+              free(result);
+            }
+          }
+          // si el numero de impostores es incorrecto
+          else
+          {
+            printf("numero de impostores incorrecto\n");
+            char *message_response = "WARNING seleccione 1 o 2 impostores para comenzar la partida.";
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message_response);
           }
         }
       }
@@ -278,7 +299,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       char *color;
       for (int i = 0; i < 8; i++)
       {
-
         if (arg_struct->sockets_clients->socket[i] != 0)
         {
           jugador[44] = '\0';
@@ -295,8 +315,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
 
           color = colors[i];
 
-          printf("color: %s\n", jugador);
-
           jugador[10] = 'e';
           jugador[11] = 's';
           jugador[12] = 't';
@@ -308,7 +326,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
 
           char *estado = "estado: ";
           // para saber el estado
-          if (arg_struct->players[i].estado == 0) // Vivo
+          if (arg_struct->players[i].estado == 1) // Vivo
           {
             jugador[18] = 'V';
             jugador[19] = 'I';
@@ -328,7 +346,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             //loquequeda = strcat(estado, vivo);
             //printf("loquequeda: %s\n", loquequeda);
           }
-          else if (arg_struct->players[i].estado == 1) // expulsado
+          else if (arg_struct->players[i].estado == 2) // expulsado
           {
             jugador[18] = 'E';
             jugador[19] = 'X';
@@ -344,7 +362,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             char *expulsado = "EXPULSADO";
             //strcat(estado, expulsado);
           }
-          else if (arg_struct->players[i].estado == 1) // eLIMINADO
+          else if (arg_struct->players[i].estado == 3) // eLIMINADO
           {
             jugador[18] = 'E';
             jugador[19] = 'L';
@@ -404,12 +422,14 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
 
             //strcat(voto, "---------");
           }
+          /*
           for (int i = 0; i < 45; i++)
           {
             printf("%c", jugador[i]);
           }
           printf("\n");
           printf("%s\n", jugador);
+          */
           //printf('jugador completo: %s\n', jugador);
           //char *jugador2 = " ";
           //strcat(jugador2, color);
