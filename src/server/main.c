@@ -730,7 +730,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
     }
   }
-  else if (message[0] != '\\' && arg_struct->players[socket_number - 1].estado == 1)
+  else if (message[0] != '\\' && (arg_struct->players[socket_number - 1].estado == 1 || arg_struct->playing == 0))
   {
     for (int i = 0; i < 8; i++)
     {
