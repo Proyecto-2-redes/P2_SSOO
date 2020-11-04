@@ -399,9 +399,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             char *voto = "voto:";
 
             // si está vivo
-            arg_struct->players[i]
-                .voto = 2;
-            if (arg_struct->players[i].estado == 0)
+            if (arg_struct->players[i].estado == 1)
             {
               // el jugador por el que votó va a estar guardado como int en el struct players
               jugador[34] = chars_colors[arg_struct->players[i].voto][0];
@@ -418,7 +416,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               //strcat(voto, colors[i]);
             }
             // si ya no sigue jugando:
-            else if (arg_struct->players[i].estado != 0)
+            else if (arg_struct->players[i].estado != 1)
             {
               jugador[34] = '-';
               jugador[35] = '-';
@@ -453,6 +451,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message_split, "\\vote") == 0)
     {
+      // si es que ya pasrtió la partida
       if (arg_struct->playing == 1)
       {
         message_split = strtok(NULL, " ");
@@ -465,18 +464,22 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             result = i + 1;
           }
         }
+        // si no existe el color ingrsado
         if (result == 0)
         {
           char *response = "El color ingresado no existe.";
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
         }
+        // si es que sí se indicó correctamente el color
         else
         {
+          // si el jugador por el que se voto no está conectado
           if (arg_struct->sockets_clients->socket[result - 1] == 0)
           {
             char *response = "El jugador votado no esta en juego.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
+          // si es que sí está conectado
           else
           {
             arg_struct->players[socket_number - 1].voto = result;
@@ -531,7 +534,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                   {
                     if (arg_struct->sockets_clients->socket[i] == result + 3)
                     {
-                      sprintf(result_message, "Haz sido eliminado.");
+                      sprintf(result_message, "Has sido eliminado.");
                       server_send_message(arg_struct->sockets_clients->socket[i], 1, result_message);
                     }
                     else if (arg_struct->sockets_clients->socket[i] != 0)
@@ -723,7 +726,8 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else
     {
-      // manejo de error
+      char *warning = "WARNING comando inválido. Tiene que ser: \\start; \\exit; \\players; \\vote [color]; \\kill [color]; \\spy [color]; \\whisper [color].";
+      server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
     }
   }
   else if (message[0] != '\\' && arg_struct->players[socket_number - 1].estado == 1)
