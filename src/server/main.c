@@ -525,7 +525,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 // Jugador es eliminado
                 if (prob < 30)
                 {
-                  arg_struct->players[result - 1].estado = 0;
+                  arg_struct->players[result - 1].estado = 3;
                   char result_message[50];
                   for (int i = 0; i < 8; i++)
                   {
@@ -830,6 +830,7 @@ int check_game(struct arg_struct *arg_struct)
 
 void check_votation(struct arg_struct *arg_struct)
 {
+  char colors[8][9] = {"rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado"};
   int votacion[8];
   votacion[0] = 0;
   votacion[1] = 0;
@@ -847,4 +848,25 @@ void check_votation(struct arg_struct *arg_struct)
     }
   }
   int cantidad_jugadores_vivos = players_connected(arg_struct);
+  int result_player = 0;
+  for (int i = 0; i < 8; i++){
+    if (2*votacion[i] > cantidad_jugadores_vivos){
+      result_player = i + 1;
+    }
+  }
+  if (result_player > 0){
+    arg_struct->players[result_player - 1].estado = 2;
+    for (int j = 0; j < 8; j++){
+      if (arg_struct->sockets_clients->socket[j] != 0){
+        votacion[arg_struct->players[j].voto-1] = 0;
+        char kill_message[38];
+        sprintf(kill_message, "Se ha expulsado al jugador %s.", colors[result_player-1]);
+        server_send_message(arg_struct->sockets_clients->socket[j], 1, kill_message);
+        if (arg_struct->players[j].estado == 1){
+          char* votation_reset = "Se ha reiniciado tu votacion.";
+          server_send_message(arg_struct->sockets_clients->socket[j], 1, votation_reset);
+        }
+      }
+    }
+  }
 }
