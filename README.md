@@ -14,7 +14,8 @@ Hay un archivo Makefile para compilar los archivos del servidor y el cliente. Pa
 $ ./server -i <ip_address> -p <tcp_port>  
 $ ./client -i <ip_address> -p <tcp_port>  
 
-donde ip_address corresponde a la dirección IP del servidor en formato human-readable y tcp_port corresponde al puerto a través del cual se recibirán nuevas conexiones.
+donde ip_address corresponde a la dirección IP del servidor en formato human-readable y tcp_port corresponde al puerto a través del cual se recibirán nuevas conexiones.  
+Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el puerto 8080.
 
 
 ### Descripción de los paquetes utilizados en la comunicación entre cliente y servidor.
