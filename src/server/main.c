@@ -455,44 +455,55 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       if (arg_struct->playing == 1)
       {
         message_split = strtok(NULL, " ");
-        printf("Vote: %s\n", message_split);
-        int result = 0;
-        for (int i = 0; i < 8; i++)
+        // si es que indicó un color y el mensajke es no nulo
+        if (message_split)
         {
-          if (strcmp(message_split, colors[i]) == 0)
+          printf("Vote: %s\n", message_split);
+          int result = 0;
+          for (int i = 0; i < 8; i++)
           {
-            result = i + 1;
+            if (strcmp(message_split, colors[i]) == 0)
+            {
+              result = i + 1;
+            }
           }
-        }
-        // si no existe el color ingrsado
-        if (result == 0)
-        {
-          char *response = "El color ingresado no existe.";
-          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
-        }
-        // si es que sí se indicó correctamente el color
-        else
-        {
-          // si el jugador por el que se voto no está conectado
-          if (arg_struct->sockets_clients->socket[result - 1] == 0)
+          // si no existe el color ingrsado
+          if (result == 0)
           {
-            char *response = "El jugador votado no esta en juego.";
+            char *response = "WARNING El color ingresado no existe.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
-          // si es que sí está conectado
+          // si es que sí se indicó correctamente el color
           else
           {
-            arg_struct->players[socket_number - 1].voto = result;
-            char response[34];
-            sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
-            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
-            check_votation(arg_struct);
+            // si el jugador por el que se voto no está conectado
+            if (arg_struct->sockets_clients->socket[result - 1] == 0)
+            {
+              char *response = "El jugador votado no esta en juego.";
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+            }
+            // si es que sí está conectado
+            else
+            {
+              arg_struct->players[socket_number - 1].voto = result;
+              char response[34];
+              sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
+              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+              check_votation(arg_struct);
+            }
           }
+        }
+        // si el mensaje escrito es null
+        else if (!message_split)
+        {
+          printf("NO se indicó el jugador por el que votar\n");
+          char *warning = "WARNING no indicaste un jugador por quien votar";
+          server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
         }
       }
       else if (arg_struct->playing == 0)
       {
-        char *response = "Se debe usar vote cuando se haya iniciado el juego.";
+        char *response = "WARNING Se debe usar vote cuando se haya iniciado el juego.";
         server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
       }
     }
@@ -583,28 +594,28 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               // Si el jugador objetivo es Impostor o está muerto.
               else
               {
-                char *error = "Estás intentando matar a un jugador no válido.";
+                char *error = "WARNING Estás intentando matar a un jugador no válido.";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, error);
               }
             }
             // Si el color del argumento es inválido
             else
             {
-              char *error = "No ingresaste un color de jugador válido.";
+              char *error = "WARNING No ingresaste un color de jugador válido.";
               server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, error);
             }
           }
           // Si es Ruzmate
           else if (arg_struct->players[socket_number - 1].player_type == 1)
           {
-            char *response = "No puedes usar Kill siendo Ruzmate.";
+            char *response = "WARNING No puedes usar Kill siendo Ruzmate.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
         }
         // Si no se ha iniciado la partida todavia
         else
         {
-          char *warning = "Se debe iniciar partida para poder usar Kill";
+          char *warning = "WARNING Se debe iniciar partida para poder usar Kill";
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
         }
       }
@@ -661,14 +672,14 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             // si no existe el jugador indicado
             else if (result == 0)
             {
-              char *response = "El jugador indicado no existe.";
+              char *response = "WARNING El jugador indicado no existe.";
               server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
             }
           }
           // si el que ejecutó el comando es impostor
           else if (arg_struct->players[socket_number - 1].player_type == 2)
           {
-            char *response = "No puedes usar Spy siendo impostor.";
+            char *response = "WARNING No puedes usar Spy siendo impostor.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
         }
@@ -710,7 +721,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 }
                 else
                 {
-                  char *response = "El jugador no esta conectado.";
+                  char *response = "WARNING El jugador no esta conectado.";
                   server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
                 }
               }
@@ -719,7 +730,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         }
         if (result == 0)
         {
-          char *response = "El jugador indicado no existe.";
+          char *response = "WARNING El jugador indicado no existe.";
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
         }
       }
