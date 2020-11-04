@@ -736,11 +736,11 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       }
     }
   }
-  else if (message[0] != '\\' && arg_struct->players[socket_number - 1].estado == 3)
+  else if (message[0] != '\\' && arg_struct->players[socket_number - 1].estado == 2)
   {
     for (int i = 0; i < 8; i++)
     {
-      if (arg_struct->sockets_clients->socket[i] != 0 && arg_struct->players[i].estado == 3)
+      if (arg_struct->sockets_clients->socket[i] != 0 && arg_struct->players[i].estado == 2)
       {
         server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 17, message);
       }
@@ -840,30 +840,39 @@ void check_votation(struct arg_struct *arg_struct)
   votacion[5] = 0;
   votacion[6] = 0;
   votacion[7] = 0;
-  for (int i = 0; i < 8; i++){
-    if (arg_struct->sockets_clients->socket[i] != 0){
-      if (arg_struct->players[i].estado == 1){
-        votacion[arg_struct->players[i].voto-1]++;
+  for (int i = 0; i < 8; i++)
+  {
+    if (arg_struct->sockets_clients->socket[i] != 0)
+    {
+      if (arg_struct->players[i].estado == 1)
+      {
+        votacion[arg_struct->players[i].voto - 1]++;
       }
     }
   }
   int cantidad_jugadores_vivos = players_connected(arg_struct);
   int result_player = 0;
-  for (int i = 0; i < 8; i++){
-    if (2*votacion[i] > cantidad_jugadores_vivos){
+  for (int i = 0; i < 8; i++)
+  {
+    if (2 * votacion[i] > cantidad_jugadores_vivos)
+    {
       result_player = i + 1;
     }
   }
-  if (result_player > 0){
+  if (result_player > 0)
+  {
     arg_struct->players[result_player - 1].estado = 2;
-    for (int j = 0; j < 8; j++){
-      if (arg_struct->sockets_clients->socket[j] != 0){
-        votacion[arg_struct->players[j].voto-1] = 0;
+    for (int j = 0; j < 8; j++)
+    {
+      if (arg_struct->sockets_clients->socket[j] != 0)
+      {
+        votacion[arg_struct->players[j].voto - 1] = 0;
         char kill_message[38];
-        sprintf(kill_message, "Se ha expulsado al jugador %s.", colors[result_player-1]);
+        sprintf(kill_message, "Se ha expulsado al jugador %s.", colors[result_player - 1]);
         server_send_message(arg_struct->sockets_clients->socket[j], 1, kill_message);
-        if (arg_struct->players[j].estado == 1){
-          char* votation_reset = "Se ha reiniciado tu votacion.";
+        if (arg_struct->players[j].estado == 1)
+        {
+          char *votation_reset = "Se ha reiniciado tu votacion.";
           server_send_message(arg_struct->sockets_clients->socket[j], 1, votation_reset);
         }
       }
