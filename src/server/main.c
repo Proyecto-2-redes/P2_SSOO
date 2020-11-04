@@ -402,15 +402,15 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             if (arg_struct->players[i].estado == 1)
             {
               // el jugador por el que votó va a estar guardado como int en el struct players
-              jugador[34] = chars_colors[arg_struct->players[i].voto][0];
-              jugador[35] = chars_colors[arg_struct->players[i].voto][1];
-              jugador[36] = chars_colors[arg_struct->players[i].voto][2];
-              jugador[37] = chars_colors[arg_struct->players[i].voto][3];
-              jugador[38] = chars_colors[arg_struct->players[i].voto][4];
-              jugador[39] = chars_colors[arg_struct->players[i].voto][5];
-              jugador[40] = chars_colors[arg_struct->players[i].voto][6];
-              jugador[41] = chars_colors[arg_struct->players[i].voto][7];
-              jugador[42] = chars_colors[arg_struct->players[i].voto][8];
+              jugador[34] = chars_colors[arg_struct->players[i].voto - 1][0];
+              jugador[35] = chars_colors[arg_struct->players[i].voto - 1][1];
+              jugador[36] = chars_colors[arg_struct->players[i].voto - 1][2];
+              jugador[37] = chars_colors[arg_struct->players[i].voto - 1][3];
+              jugador[38] = chars_colors[arg_struct->players[i].voto - 1][4];
+              jugador[39] = chars_colors[arg_struct->players[i].voto - 1][5];
+              jugador[40] = chars_colors[arg_struct->players[i].voto - 1][6];
+              jugador[41] = chars_colors[arg_struct->players[i].voto - 1][7];
+              jugador[42] = chars_colors[arg_struct->players[i].voto - 1][8];
               jugador[43] = ' ';
 
               //strcat(voto, colors[i]);
