@@ -453,36 +453,43 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message_split, "\\vote") == 0)
     {
-      if (arg_struct->playing == 1){
+      if (arg_struct->playing == 1)
+      {
         message_split = strtok(NULL, " ");
         printf("Vote: %s\n", message_split);
         int result = 0;
-        for (int i = 0; i < 8; i++){
-          if (strcmp(message_split, colors[i]) == 0){
+        for (int i = 0; i < 8; i++)
+        {
+          if (strcmp(message_split, colors[i]) == 0)
+          {
             result = i + 1;
           }
         }
-        if (result == 0){
-          char* response = "El color ingresado no existe.";
+        if (result == 0)
+        {
+          char *response = "El color ingresado no existe.";
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
-
         }
-        else {
-          if (arg_struct->sockets_clients->socket[result - 1] == 0){
-            char* response = "El jugador votado no esta en juego.";
+        else
+        {
+          if (arg_struct->sockets_clients->socket[result - 1] == 0)
+          {
+            char *response = "El jugador votado no esta en juego.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
-          else{
+          else
+          {
             arg_struct->players[socket_number - 1].voto = result;
             char response[34];
-            sprintf(response, "Votaste por el jugador %s.", colors[result-1]);
+            sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
             check_votation(arg_struct);
           }
         }
       }
-      else if (arg_struct->playing == 0){
-        char* response = "Se debe usar vote cuando se haya iniciado el juego.";
+      else if (arg_struct->playing == 0)
+      {
+        char *response = "Se debe usar vote cuando se haya iniciado el juego.";
         server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
       }
     }
@@ -821,7 +828,8 @@ int check_game(struct arg_struct *arg_struct)
   }
 }
 
-void check_votation(struct arg_struct *arg_struct){
+void check_votation(struct arg_struct *arg_struct)
+{
   int votacion[8];
   votacion[0] = 0;
   votacion[1] = 0;
@@ -831,16 +839,21 @@ void check_votation(struct arg_struct *arg_struct){
   votacion[5] = 0;
   votacion[6] = 0;
   votacion[7] = 0;
-  for (int i = 0; i < 8; i++){
-    if (arg_struct->socket[i] != 0){
-      if (arg_struct->players[i].estado == 1){
-        votacion[arg_struct->players[i].voto-1]++;
+  for (int i = 0; i < 8; i++)
+  {
+    if (arg_struct->socket[i] != 0)
+    {
+      if (arg_struct->players[i].estado == 1)
+      {
+        votacion[arg_struct->players[i].voto - 1]++;
       }
     }
   }
   int cantidad_jugadores_vivos = players_connected(arg_struct);
-  for (int i = 0; i < 8; i++){
-    if (votacion[i]/cantidad_ruzmate_vivos > 0.5){
+  for (int i = 0; i < 8; i++)
+  {
+    if (votacion[i] / cantidad_ruzmate_vivos > 0.5)
+    {
       //matar al jugador i
     }
   }
