@@ -122,6 +122,38 @@ void *recv_msg_handler(void *arguments)
     {
       printf("[ROSADO PRIVADO]: %s\n", message);
     }
+    else if (msg_code == 18)
+    {
+      printf("[ROJO FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 19)
+    {
+      printf("[NARANJA FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 20)
+    {
+      printf("[AMARILLO FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 21)
+    {
+      printf("[VERDE FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 22)
+    {
+      printf("[CELESTE FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 23)
+    {
+      printf("[AZUL FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 24)
+    {
+      printf("[VIOLETA FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 25)
+    {
+      printf("[ROSADO FANTASMA]: %s\n", message);
+    }
   }
   free(message);
 }

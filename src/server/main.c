@@ -605,7 +605,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       {
         if (arg_struct->playing == 1)
         {
-          printf("Entro SPY\n");
           // si es que es ruzmate
           if (arg_struct->players[socket_number - 1].player_type == 1)
           {
@@ -622,7 +621,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               }
             }
             // si es que el usuario a espiar existe
-            //ARREGLAR SELECCION NUMERO JUGADOR
             if (result != 0)
             {
               printf("Se desea espiar al jugador %i\n", result);
@@ -645,7 +643,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               // si ya se usó el spy
               else
               {
-                printf("ya se trató de usar el spy\n");
+                printf("WARNING: el comando SPY ya fué utilizado\n");
                 char *warning = "WARNING: el comando SPY ya fué utilizado";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
               }
@@ -728,6 +726,16 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       if (arg_struct->sockets_clients->socket[i] != 0)
       {
         server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 1, message);
+      }
+    }
+  }
+  else if (message[0] != '\\' && arg_struct->players[socket_number - 1].estado == 3)
+  {
+    for (int i = 0; i < 8; i++)
+    {
+      if (arg_struct->sockets_clients->socket[i] != 0 && arg_struct->players[i].estado == 3)
+      {
+        server_send_message(arg_struct->sockets_clients->socket[i], socket_number + 17, message);
       }
     }
   }
