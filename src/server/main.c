@@ -832,16 +832,11 @@ void check_votation(struct arg_struct *arg_struct){
   votacion[6] = 0;
   votacion[7] = 0;
   for (int i = 0; i < 8; i++){
-    if (arg_struct->socket[i] != 0){
+    if (arg_struct->sockets_clients->socket[i] != 0){
       if (arg_struct->players[i].estado == 1){
         votacion[arg_struct->players[i].voto-1]++;
       }
     }
   }
   int cantidad_jugadores_vivos = players_connected(arg_struct);
-  for (int i = 0; i < 8; i++){
-    if (votacion[i]/cantidad_ruzmate_vivos > 0.5){
-      //matar al jugador i
-    }
-  }
 }
