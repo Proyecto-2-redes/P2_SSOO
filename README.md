@@ -1,7 +1,5 @@
 # Readme Proyecto 2
 
-Este es el repositorio donde deberán subir todos los archivos necesarios para su proyecto. En caso de necesitar compañeros se pueden buscar en el siguiente [link](https://github.com/IIC2333/Foro-2020-2/issues/82)
-
 |       Nombre integrante       | Número de alumno |
 | :---------------------------: | :--------------: |
 |      FELIPE BARRÍA MORA       |     15637298     |
@@ -9,11 +7,27 @@ Este es el repositorio donde deberán subir todos los archivos necesarios para s
 | IRINA ANDREA SALAZAR GRONDONA |     14203944     |
 |    LUCAS ZALAQUETT MC KAY     |     15635031     |
 
-En este README deberán agregan la siguiente información:
 
-- Instrucciones para ejecutar el programa
-- Descripción de los paquetes utilizados en la comunicación entre cliente y servidor.
-- Cuáles fueron las principales decisiones de diseño para construir el programa.
-- Cuáles son las principales funciones del programa.
-- Qué supuestos adicionales ocuparon.
-- Cualquier información que consideren necesaria para facilitar la corrección de su tarea.
+## Instrucciones para ejecutar el programa
+Hay un archivo Makefile para compilar los archivos del servidor y el cliente. Para ejecutar el programa mediante el terminal, ubicarse en la carpeta principal, ejecutar el comando make y luego escribir:  
+
+$ ./server -i <ip_address> -p <tcp_port>  
+$ ./client -i <ip_address> -p <tcp_port>  
+
+donde ip_address corresponde a la dirección IP del servidor en formato human-readable y tcp_port corresponde al puerto a través del cual se recibirán nuevas conexiones.
+
+
+## Descripción de los paquetes utilizados en la comunicación entre cliente y servidor.
+Blablabla
+
+## Cuáles fueron las principales decisiones de diseño para construir el programa.
+Blablabla
+
+## Cuáles son las principales funciones del programa.
+Blablabla
+
+## Qué supuestos adicionales ocuparon.
+Blablabla
+
+## Cualquier información que consideren necesaria para facilitar la corrección de su tarea.
+Blablabla
