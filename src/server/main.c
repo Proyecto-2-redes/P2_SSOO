@@ -209,9 +209,9 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               int count = 0;
               for (int i = 0; i < 8; i++)
               {
-                count++;
                 if (arg_struct->sockets_clients->socket[i] != 0)
                 {
+                  count++;
                   arg_struct->players[i].estado = 1;
                   arg_struct->players[i].voto = 0;
                   server_send_message(arg_struct->sockets_clients->socket[i], 1, start_message);
