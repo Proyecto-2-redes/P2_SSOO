@@ -8,7 +8,7 @@
 |    LUCAS ZALAQUETT MC KAY     |     15635031     |
 
 
-### Instrucciones para ejecutar el programa
+## Instrucciones para ejecutar el programa
 Hay un archivo Makefile para compilar los archivos del servidor y el cliente. Para ejecutar el programa mediante el terminal, ubicarse en la carpeta principal, ejecutar el comando make y luego escribir:  
 
 $ ./server -i <ip_address> -p <tcp_port>  
@@ -18,17 +18,70 @@ donde ip_address corresponde a la dirección IP del servidor en formato human-re
 Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el puerto 8080.
 
 
-### Descripción de los paquetes utilizados en la comunicación entre cliente y servidor.
-Blablabla
+## Descripción de los paquetes utilizados en la comunicación entre cliente y servidor
+- <sys/socket.h>:  
 
-### Cuáles fueron las principales decisiones de diseño para construir el programa.
-Blablabla
+- <sys/types.h>:  
 
-### Cuáles son las principales funciones del programa.
-Blablabla
+- <sys/un.h>:  
 
-### Qué supuestos adicionales ocuparon.
-Blablabla
+- <netinet/in.h>:  
 
-### Cualquier información que consideren necesaria para facilitar la corrección de su tarea.
-Blablabla
+- <arpa/init.h>:  
+
+- <netdb.h>:  
+
+
+## Cuáles fueron las principales decisiones de diseño para construir el programa
+- El chat fantasma es sólo para expulsados, no para eliminados.
+
+## Cuáles son las principales funciones del programa
+### Client - communication.h
+-
+-
+-
+-
+-
+-
+### Client - connection.h
+-
+-
+-
+-
+-
+-
+### Client - main.c
+-
+-
+-
+-
+-
+-
+
+### Server - communication.h
+-
+-
+-
+-
+-
+-
+### Server - connection.h
+-
+-
+-
+-
+-
+-
+### Server - main.c
+-
+-
+-
+-
+-
+-
+
+
+
+## Qué supuestos adicionales ocuparon
+
+## Cualquier información que consideren necesaria para facilitar la corrección de su tarea
