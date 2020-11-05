@@ -802,21 +802,20 @@ int check_game(struct arg_struct *arg_struct)
         }
       }
     }
-  }
-  if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
-  {
-    arg_struct->playing = 0;
-    char *win = "Los Impostores ganan la partida";
-    for (int i = 0; i < 8; i++)
+    if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
     {
       arg_struct->playing = 0;
-      arg_struct->used_spy = 1;
-      char *win = "Los Impostores ganan la partida";
       for (int i = 0; i < 8; i++)
       {
-        server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+        arg_struct->playing = 0;
+        arg_struct->used_spy = 1;
+        char *win = "Los Impostores ganan la partida";
+        for (int i = 0; i < 8; i++)
+        {
+          server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+        }
+        return 1;
       }
-      return 1;
     }
     else if (cantidad_impostores_vivos == 0 && cantidad_ruzmate_vivos > 0)
     {
