@@ -20,15 +20,10 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 
 ## Descripción de los paquetes utilizados en la comunicación entre cliente y servidor
 - <sys/socket.h>:  
-
 - <sys/types.h>:  
-
 - <sys/un.h>:  
-
 - <netinet/in.h>:  
-
 - <arpa/init.h>:  
-
 - <netdb.h>:  
 
 
