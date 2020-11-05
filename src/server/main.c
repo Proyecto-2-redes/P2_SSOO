@@ -12,6 +12,7 @@ int players_connected(struct arg_struct *arg_struct);
 int *random_numbers(int lower, int upper, int count);
 int check_game(struct arg_struct *arg_struct);
 void check_votation(struct arg_struct *arg_struct);
+int players_alive(struct arg_struct *arg_struct);
 
 int main(int argc, char *argv[])
 {
@@ -144,6 +145,7 @@ void *recv_msg_handler(void *arguments)
         server_send_message(args->arg_pointer->sockets_clients->socket[i], 1, players_string);
       }
     }
+    int game_check = check_game(args->arg_pointer);
   }
   return NULL;
 }
@@ -452,6 +454,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
               server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
               check_votation(arg_struct);
+              check_game(arg_struct);
             }
           }
         }
@@ -763,48 +766,53 @@ int *random_numbers(int lower, int upper, int count)
 
 int check_game(struct arg_struct *arg_struct)
 {
-  int cantidad_ruzmate_vivos = 0;
-  int cantidad_impostores_vivos = 0;
-  for (int i = 0; i < 8; i++)
-  {
-    if (arg_struct->sockets_clients->socket[i] != 0)
+  if(arg_struct->playing == 1){
+    int cantidad_ruzmate_vivos = 0;
+    int cantidad_impostores_vivos = 0;
+    for (int i = 0; i < 8; i++)
     {
-      if (arg_struct->players[i].estado == 1)
+      if (arg_struct->sockets_clients->socket[i] != 0)
       {
-        if (arg_struct->players[i].player_type == 1)
+        if (arg_struct->players[i].estado == 1)
         {
-          cantidad_ruzmate_vivos++;
-        }
-        else if (arg_struct->players[i].player_type == 2)
-        {
-          cantidad_impostores_vivos++;
+          if (arg_struct->players[i].player_type == 1)
+          {
+            cantidad_ruzmate_vivos++;
+          }
+          else if (arg_struct->players[i].player_type == 2)
+          {
+            cantidad_impostores_vivos++;
+          }
         }
       }
     }
-  }
-  if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
-  {
-    arg_struct->playing = 0;
-    arg_struct->used_spy = 1;
-    char *win = "Los Impostores ganan la partida";
-    for (int i = 0; i < 8; i++)
+    if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
     {
-      server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+      arg_struct->playing = 0;
+      arg_struct->used_spy = 1;
+      char *win = "Los Impostores ganan la partida";
+      for (int i = 0; i < 8; i++)
+      {
+        server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+      }
+      return 1;
     }
-    return 1;
-  }
-  else if (cantidad_impostores_vivos == 0 && cantidad_ruzmate_vivos > 0)
-  {
-    arg_struct->playing = 0;
-    char *win = "Los Ruzmates ganan la partida";
-    for (int i = 0; i < 8; i++)
+    else if (cantidad_impostores_vivos == 0 && cantidad_ruzmate_vivos > 0)
     {
-      server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+      arg_struct->playing = 0;
+      char *win = "Los Ruzmates ganan la partida";
+      for (int i = 0; i < 8; i++)
+      {
+        server_send_message(arg_struct->sockets_clients->socket[i], 1, win);
+      }
+      return 1;
     }
-    return 1;
+    else
+    {
+      return 0;
+    }
   }
-  else
-  {
+  else{
     return 0;
   }
 }
@@ -831,7 +839,7 @@ void check_votation(struct arg_struct *arg_struct)
       }
     }
   }
-  int cantidad_jugadores_vivos = players_connected(arg_struct);
+  int cantidad_jugadores_vivos = players_alive(arg_struct);
   int result_player = 0;
   for (int i = 0; i < 8; i++)
   {
@@ -853,10 +861,26 @@ void check_votation(struct arg_struct *arg_struct)
         server_send_message(arg_struct->sockets_clients->socket[j], 1, kill_message);
         if (arg_struct->players[j].estado == 1)
         {
+          arg_struct->players[j].voto = 0;
           char *votation_reset = "Se ha reiniciado tu votacion.";
           server_send_message(arg_struct->sockets_clients->socket[j], 1, votation_reset);
         }
       }
     }
   }
+}
+
+int players_alive(struct arg_struct *arg_struct)
+{
+  int number_players_connected = 0;
+  for (int i = 0; i < 8; i++)
+  {
+    if (arg_struct->sockets_clients->socket[i] != 0)
+    {
+      if(arg_struct->players[i].estado == 1){
+        number_players_connected++;
+      }
+    }
+  }
+  return number_players_connected;
 }
