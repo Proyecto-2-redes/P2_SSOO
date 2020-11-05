@@ -188,6 +188,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           // si se indica un impostor
           if (strcmp(message_split, "1") == 0)
           {
+            // si no hay suficientes jugadores
             if (number_players_connected < 3)
             {
               printf("No se puede\n");
@@ -197,6 +198,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             else
             {
               arg_struct->playing = 1;
+              arg_struct->used_spy = 1;
               char *start_message = "El juego ha comenzado.";
               char *ruzmate_message = "Se te ha asignado ser Ruzmate.";
               char *impostor_message = "Se te ha asignado ser impostor.";
@@ -238,6 +240,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             else
             {
               arg_struct->playing = 1;
+              arg_struct->used_spy = 1;
               char *start_message = "El juego ha comenzado.";
               char *ruzmate_message = "Se te ha asignado ser Ruzmate.";
               char *impostor_message = "Se te ha asignado ser impostor.";
@@ -410,6 +413,19 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           }
         }
       }
+      // si el que inicio el comando es impostor
+      if (arg_struct->players[socket_number - 1].player_type == 2)
+      {
+        for (int i = 0; i < 8; i++)
+        {
+          if (arg_struct->players[i].player_type == 2)
+          {
+            char impostor_color[21];
+            sprintf(impostor_color, "impostor: %s.", colors[i]);
+            server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, impostor_color);
+          }
+        }
+      }
     }
     else if (strcmp(message_split, "\\vote") == 0)
     {
@@ -520,7 +536,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 // Eliminación fallida y aviso individual
                 else if (prob >= 30 && prob < 60)
                 {
-                  char result_message[50];
+                  char result_message[53];
                   sprintf(result_message, "Has fallado intentando eliminar al jugador %s.", colors[result - 1]);
                   server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, result_message);
                   char aviso[50];
@@ -530,7 +546,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 // Eliminación fallida y aviso masivo
                 else
                 {
-                  char result_message[50];
+                  char result_message[55];
                   for (int i = 0; i < 8; i++)
                   {
                     if (arg_struct->sockets_clients->socket[i] == socket_number + 3)
@@ -785,7 +801,6 @@ int check_game(struct arg_struct *arg_struct)
   if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
   {
     arg_struct->playing = 0;
-    arg_struct->used_spy = 1;
     char *win = "Los Impostores ganan la partida";
     for (int i = 0; i < 8; i++)
     {
