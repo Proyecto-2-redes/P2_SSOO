@@ -178,6 +178,7 @@ void *send_msg_handler(void *arguments)
     }
     bzero(message, LENGTH);
   }
+  return NULL;
 }
 
 void str_trim_lf(char *arr, int length)
