@@ -584,8 +584,10 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message_split, "\\spy") == 0)
     {
+      // si está vivo
       if (arg_struct->players[socket_number - 1].estado == 1)
       {
+        // si estan jugando
         if (arg_struct->playing == 1)
         {
           // si es que es ruzmate
@@ -607,6 +609,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             if (result != 0)
             {
               printf("Se desea espiar al jugador %i\n", result);
+              // si el spy no se ha ocupado todav+ia
               if (arg_struct->used_spy == 1)
               {
                 arg_struct->used_spy = 2;
@@ -624,7 +627,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 }
               }
               // si ya se usó el spy
-              else
+              else if (arg_struct->used_spy == 2)
               {
                 printf("WARNING: el comando SPY ya fué utilizado\n");
                 char *warning = "WARNING: el comando SPY ya fué utilizado";
@@ -782,6 +785,7 @@ int check_game(struct arg_struct *arg_struct)
   if (cantidad_ruzmate_vivos == 0 && cantidad_impostores_vivos > 0)
   {
     arg_struct->playing = 0;
+    arg_struct->used_spy = 1;
     char *win = "Los Impostores ganan la partida";
     for (int i = 0; i < 8; i++)
     {
