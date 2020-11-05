@@ -465,12 +465,22 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             // si es que sí está conectado
             else
             {
-              arg_struct->players[socket_number - 1].voto = result;
-              char response[34];
-              sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
-              server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
-              check_votation(arg_struct);
-              check_game(arg_struct);
+              if (arg_struct->players[j].estado == 1){
+                arg_struct->players[socket_number - 1].voto = result;
+                char response[34];
+                sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
+                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+                check_votation(arg_struct);
+                check_game(arg_struct);
+              }
+              else if (arg_struct->players[j].estado == 2){
+                char* message = "No puedes votar por un jugador que haya sido expulsado.";
+                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message);
+              }
+              else if (arg_struct->players[j].estado == 3){
+                char* message = "No puedes votar por un jugador que haya sido eliminado.";
+                server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message);
+              }
             }
           }
         }
