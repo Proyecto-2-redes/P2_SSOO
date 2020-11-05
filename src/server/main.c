@@ -465,7 +465,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             // si es que sí está conectado
             else
             {
-              if (arg_struct->players[j].estado == 1){
+              if (arg_struct->players[result - 1].estado == 1){
                 arg_struct->players[socket_number - 1].voto = result;
                 char response[34];
                 sprintf(response, "Votaste por el jugador %s.", colors[result - 1]);
@@ -473,11 +473,11 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
                 check_votation(arg_struct);
                 check_game(arg_struct);
               }
-              else if (arg_struct->players[j].estado == 2){
+              else if (arg_struct->players[result - 1].estado == 2){
                 char* message = "No puedes votar por un jugador que haya sido expulsado.";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message);
               }
-              else if (arg_struct->players[j].estado == 3){
+              else if (arg_struct->players[result - 1].estado == 3){
                 char* message = "No puedes votar por un jugador que haya sido eliminado.";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, message);
               }
@@ -792,7 +792,8 @@ int *random_numbers(int lower, int upper, int count)
 
 int check_game(struct arg_struct *arg_struct)
 {
-  if(arg_struct->playing == 1){
+  if(arg_struct->playing == 1)
+  {
     int cantidad_ruzmate_vivos = 0;
     int cantidad_impostores_vivos = 0;
     for (int i = 0; i < 8; i++)
@@ -842,7 +843,8 @@ int check_game(struct arg_struct *arg_struct)
       return 0;
     }
   }
-  else{
+  else
+  {
     return 0;
   }
 }
