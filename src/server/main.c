@@ -377,8 +377,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             jugador[32] = ':';
             jugador[33] = ' ';
 
-            char *voto = "voto:";
-
             // si está vivo
             if (arg_struct->players[i].estado == 1)
             {
