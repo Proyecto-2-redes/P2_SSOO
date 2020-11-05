@@ -299,15 +299,11 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else if (strcmp(message, "\\players") == 0)
     {
-      //int number_players_connected = players_connected(arg_struct);
-      //char * tabla[11 + 15*number_players_connected];
-      //tabla = }
       if (arg_struct->playing == 1)
       {
         char *header = "TABLA JUGADORES:";
         server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, header);
         char jugador[45];
-        char *color;
         for (int i = 0; i < 8; i++)
         {
           if (arg_struct->sockets_clients->socket[i] != 0)
@@ -324,8 +320,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             jugador[8] = chars_colors[i][8];
             jugador[9] = ' ';
 
-            color = colors[i];
-
             jugador[10] = 'e';
             jugador[11] = 's';
             jugador[12] = 't';
@@ -335,7 +329,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
             jugador[16] = ':';
             jugador[17] = ' ';
 
-            char *estado = "estado: ";
             // para saber el estado
             if (arg_struct->players[i].estado == 1) // Vivo
             {
@@ -349,13 +342,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               jugador[25] = ' ';
               jugador[26] = ' ';
               jugador[27] = ' ';
-
-              char *vivo = "VIVO";
-              char *loquequeda;
-              //printf("####estado: %s, %p\n", estado, &estado);
-              //printf("####vivo: %s, %p\n", vivo, &vivo);
-              //loquequeda = strcat(estado, vivo);
-              //printf("loquequeda: %s\n", loquequeda);
             }
             else if (arg_struct->players[i].estado == 2) // expulsado
             {
@@ -369,9 +355,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               jugador[25] = 'D';
               jugador[26] = 'O';
               jugador[27] = ' ';
-
-              char *expulsado = "EXPULSADO";
-              //strcat(estado, expulsado);
             }
             else if (arg_struct->players[i].estado == 3) // eLIMINADO
             {
@@ -385,8 +368,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               jugador[25] = 'D';
               jugador[26] = 'O';
               jugador[27] = ' ';
-
-              //strcat(estado, "ELIMINADO");
             }
             // voto
             jugador[28] = 'v';
@@ -412,8 +393,6 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               jugador[41] = chars_colors[arg_struct->players[i].voto - 1][7];
               jugador[42] = chars_colors[arg_struct->players[i].voto - 1][8];
               jugador[43] = ' ';
-
-              //strcat(voto, colors[i]);
             }
             // si ya no sigue jugando:
             else if (arg_struct->players[i].estado != 1)
@@ -428,22 +407,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               jugador[41] = '-';
               jugador[42] = '-';
               jugador[43] = ' ';
-
-              //strcat(voto, "---------");
             }
-            /*
-            for (int i = 0; i < 45; i++)
-            {
-              printf("%c", jugador[i]);
-            }
-            printf("\n");
-            printf("%s\n", jugador);
-            */
-            //printf('jugador completo: %s\n', jugador);
-            //char *jugador2 = " ";
-            //strcat(jugador2, color);
-            //strcat(jugador2, estado);
-            //strcat(jugador2, voto);
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, jugador);
           }
         }
