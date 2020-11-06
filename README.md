@@ -19,7 +19,7 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 
 
 ## Descripción de los paquetes utilizados en la comunicación entre cliente y servidor
-El ID dicta para qué es el mensaje:
+Para crear los paquetes se usó el mismo formato que el visto en ayudantía. El ID dicta para qué es el mensaje:
 - 1: mensaje que emite el servidor
 - 2 - 9: mensaje de un jugador determinado
 - 10 - 17: mensaje privado de un jugador determinado vía whisper
