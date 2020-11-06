@@ -38,7 +38,7 @@ void *prepare_sockets_and_get_clients(void *arguments)
   socklen_t addr_size = sizeof(client1_addr);
 
   char colors[8][9] = {"rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado"};
-
+  char mensaje_error_conexion[56];
   while (args->exit)
   {
     //REVISAR CONDICIONES
@@ -48,13 +48,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[0]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[0], 1, mensaje_error_conexión);
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[0], 1, mensaje_error_conexión);
-        args->sockets_clients->socket[0] = 0;
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[0], -1, mensaje_error_conexion);
+        args->sockets_clients->socket[0] = -1;
+        close(args->sockets_clients->socket[0]);
       }
       else
       {
@@ -69,10 +66,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[1]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[1], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[1], -1, mensaje_error_conexion);
         args->sockets_clients->socket[1] = 0;
+        close(args->sockets_clients->socket[1]);
       }
       else
       {
@@ -86,10 +83,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[2]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[2], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[2], -1, mensaje_error_conexion);
         args->sockets_clients->socket[2] = 0;
+        close(args->sockets_clients->socket[2]);
       }
       else
       {
@@ -103,10 +100,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[3]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[3], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[3], -1, mensaje_error_conexion);
         args->sockets_clients->socket[3] = 0;
+        close(args->sockets_clients->socket[3]);
       }
       else
       {
@@ -120,10 +117,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[4]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[4], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[4], -1, mensaje_error_conexion);
         args->sockets_clients->socket[4] = 0;
+        close(args->sockets_clients->socket[4]);
       }
       else
       {
@@ -137,10 +134,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[5]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[5], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[5], -1, mensaje_error_conexion);
         args->sockets_clients->socket[5] = 0;
+        close(args->sockets_clients->socket[5]);
       }
       else
       {
@@ -154,10 +151,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[6]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[6], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[6], -1, mensaje_error_conexion);
         args->sockets_clients->socket[6] = 0;
+        close(args->sockets_clients->socket[6]);
       }
       else
       {
@@ -171,10 +168,10 @@ void *prepare_sockets_and_get_clients(void *arguments)
       printf("el socket es: %i\n", args->sockets_clients->socket[7]);
       if (args->playing == 1)
       {
-        char mensaje_error_conexión[55];
-        sprintf(mensaje_error_conexión, "WARNING imposible conectar porque ya inició la partida");
-        server_send_message(args->sockets_clients->socket[7], 1, mensaje_error_conexión);
+        sprintf(mensaje_error_conexion, "WARNING imposible conectar porque ya inició la partida");
+        server_send_message(args->sockets_clients->socket[7], -1, mensaje_error_conexion);
         args->sockets_clients->socket[7] = 0;
+        close(args->sockets_clients->socket[7]);
       }
       else
       {

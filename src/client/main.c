@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
 
   // Se prepara el socket
   int server_socket = prepare_socket(IP, PORT);
-  printf("server soket: %i\n", server_socket);
 
   struct arg_struct args;
   args.server_socket = server_socket;
@@ -152,6 +151,11 @@ void *recv_msg_handler(void *arguments)
     else if (msg_code == 25)
     {
       printf("[ROSADO FANTASMA]: %s\n", message);
+    }
+    else if (msg_code == 255)
+    {
+      printf("[SERVIDOR] : %s\n", message);
+      args->flag = 0;
     }
   }
   free(message);
