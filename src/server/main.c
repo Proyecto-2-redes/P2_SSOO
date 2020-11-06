@@ -606,7 +606,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           // Si es Ruzmate
           else if (arg_struct->players[socket_number - 1].player_type == 1)
           {
-            char *response = "WARNING No puedes usar Kill siendo Ruzmate.";
+            char *response = "WARNING No puedes usar \\kill siendo Ruzmate.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
         }
@@ -668,7 +668,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               // si ya se usó el spy
               else if (arg_struct->used_spy == 2)
               {
-                char *warning = "WARNING: el comando SPY ya fué utilizado";
+                char *warning = "WARNING: el comando \\spy ya fué utilizado";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
               }
             }
@@ -682,7 +682,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           // si el que ejecutó el comando es impostor
           else if (arg_struct->players[socket_number - 1].player_type == 2)
           {
-            char *response = "WARNING No puedes usar Spy siendo impostor.";
+            char *response = "WARNING No puedes usar \\spy siendo impostor.";
             server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
           }
         }
