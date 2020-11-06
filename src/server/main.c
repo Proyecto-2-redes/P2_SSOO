@@ -300,9 +300,9 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       {
         char *header = "TABLA JUGADORES:";
         server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, header);
-        char jugador[45];
         for (int i = 0; i < 8; i++)
         {
+          char jugador[45];
           if (arg_struct->sockets_clients->socket[i] != 0)
           {
             jugador[44] = '\0';
