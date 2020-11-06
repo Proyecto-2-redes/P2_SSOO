@@ -55,7 +55,7 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 - void * recv_msg_handler(void *arguments): recibe como argumento un puntero a un vacío. Retorna un puntero vacío.
 - void message_handler(char* message, int socket_number, struct arg_struct *arg_struct):recibe como argumentos un puntero a un char del mensaje, un int que representa el numero de socket y un puntero a un struct de tipo arg_struct. Retorna vacío.  
 - int players_connected(struct arg_struct *arg_struct): recibe como argumento un puntero a un struct arg_struct. Retorna un int que representa el número de jugadores conectados.  
-- int *random_numbers(int lower, int upper, int count): recibe como argumento un int lower, un int upper y un int count. Retorna un puntero a un int que representa XXXXXXX.  
+- int *random_numbers(int lower, int upper, int count): recibe como argumento un int lower, un int upper y un int count. Retorna un puntero a un int que representa un arreglo de enteros del número del jugador que será impostor.  
 - int check_game(struct arg_struct *arg_struct): recibe como argumento un puntero a un struct de tipo arg_struct. Retorna un int 0 o 1, dependiendo de si el juego continúa o no respectivamente.  
 - void check_votation(struct arg_struct *arg_struct): recibe como argumento un puntero a un struct de tipo arg_struct. Retorna vacío.  
 - int main(int argc, char *argv[]): función que maneja el programa principal del servidor.  
