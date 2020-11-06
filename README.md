@@ -19,13 +19,10 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 
 
 ## Descripción de los paquetes utilizados en la comunicación entre cliente y servidor
-- <sys/socket.h>:  
-- <sys/types.h>:  
-- <sys/un.h>:  
-- <netinet/in.h>:  
-- <arpa/init.h>:  
-- <netdb.h>:  
-
+-
+-
+-
+-
 
 ## Cuáles fueron las principales decisiones de diseño para construir el programa
 - El chat fantasma es sólo para expulsados, no para eliminados.
@@ -37,13 +34,13 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 - char * client_receive_payload(int client_socket):  
 
 ### Client - connection.h
-- int prepare_socket(char *IP, int PORT)  
+- int prepare_socket(char *IP, int PORT):  
 
 ### Client - main.c
-- void * recv_msg_handler(void *arguments)  
-- void * send_msg_handler(void *arguments)  
-- void str_trim_lf(char *arr, int length)  
-- int main(int argc, char *argv[])  
+- void * recv_msg_handler(void *arguments):  
+- void * send_msg_handler(void *arguments):  
+- void str_trim_lf(char *arr, int length):  
+- int main(int argc, char *argv[]):  
 
 ### Server - communication.h
 - int server_receive_id(int client_socket):  
