@@ -1,8 +1,9 @@
 #include "connection.h"
 #include "communication.h"
 
-void* prepare_sockets_and_get_clients(void* arguments) {
-  struct arg_struct* args = (struct arg_struct*)arguments;
+void *prepare_sockets_and_get_clients(void *arguments)
+{
+  struct arg_struct *args = (struct arg_struct *)arguments;
   // Se define la estructura para almacenar info del socket del servidor al momento de su creación
   struct sockaddr_in server_addr;
 
@@ -20,7 +21,7 @@ void* prepare_sockets_and_get_clients(void* arguments) {
   server_addr.sin_port = htons(args->PORT);
 
   // Se le asigna al socket del servidor un puerto y una IP donde escuchar
-  int ret2 = bind(server_socket, (struct sockaddr*)&server_addr, sizeof(server_addr));
+  int ret2 = bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
   // Se coloca el socket en modo listening
   int ret3 = listen(server_socket, 1);
@@ -36,87 +37,120 @@ void* prepare_sockets_and_get_clients(void* arguments) {
   struct sockaddr_in client8_addr;
   socklen_t addr_size = sizeof(client1_addr);
 
-  char colors[8][9] = { "rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado" };
+  char colors[8][9] = {"rojo", "naranja", "amarillo", "verde", "celeste", "azul", "violeta", "rosado"};
 
-  while (args->exit) {
+  while (args->exit)
+  {
     //REVISAR CONDICIONES
-    if (args->sockets_clients->socket[0] == 0 && args->playing == 0) { //
-      args->sockets_clients->socket[0] = accept(server_socket, (struct sockaddr*)&client1_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[0] == 0 && args->playing == 0)
+    { //
+      args->sockets_clients->socket[0] = accept(server_socket, (struct sockaddr *)&client1_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[0]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[0] = 0;
       }
-      else{
+      else
+      {
         message_initial(1, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
     //if socket == 0 and start == 0//
-    if (args->sockets_clients->socket[1] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[1] = accept(server_socket, (struct sockaddr*)&client2_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[1] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[1] = accept(server_socket, (struct sockaddr *)&client2_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[1]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[1] = 0;
       }
-      else{
+      else
+      {
         message_initial(2, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
-    if (args->sockets_clients->socket[2] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[2] = accept(server_socket, (struct sockaddr*)&client3_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[2] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[2] = accept(server_socket, (struct sockaddr *)&client3_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[2]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[2] = 0;
       }
-      else{
+      else
+      {
         message_initial(3, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
-    if (args->sockets_clients->socket[3] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[3] = accept(server_socket, (struct sockaddr*)&client4_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[3] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[3] = accept(server_socket, (struct sockaddr *)&client4_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[3]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[3] = 0;
       }
-      else{
+      else
+      {
         message_initial(4, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
-    if (args->sockets_clients->socket[4] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[4] = accept(server_socket, (struct sockaddr*)&client5_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[4] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[4] = accept(server_socket, (struct sockaddr *)&client5_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[4]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[4] = 0;
       }
-      else{
+      else
+      {
         message_initial(5, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
-    if (args->sockets_clients->socket[5] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[5] = accept(server_socket, (struct sockaddr*)&client6_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[5] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[5] = accept(server_socket, (struct sockaddr *)&client6_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[5]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[5] = 0;
       }
-      else{
+      else
+      {
         message_initial(6, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
-    if (args->sockets_clients->socket[6] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[6] = accept(server_socket, (struct sockaddr*)&client7_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[6] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[6] = accept(server_socket, (struct sockaddr *)&client7_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[6]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[6] = 0;
       }
-      else{
+      else
+      {
         message_initial(7, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
 
-    if (args->sockets_clients->socket[7] == 0 && args->playing == 0) {
-      args->sockets_clients->socket[7] = accept(server_socket, (struct sockaddr*)&client8_addr, &addr_size);
-      if (args->playing == 1){
+    if (args->sockets_clients->socket[7] == 0 && args->playing == 0)
+    {
+      args->sockets_clients->socket[7] = accept(server_socket, (struct sockaddr *)&client8_addr, &addr_size);
+      printf("el socket es: %i\n", args->sockets_clients->socket[7]);
+      if (args->playing == 1)
+      {
         args->sockets_clients->socket[7] = 0;
       }
-      else{
+      else
+      {
         message_initial(8, args, colors); //ARREGLAR  UANCOD SE CONECTA OTRO DENUEVO CONEXIION Y DESCONEXXION
       }
     }
@@ -126,15 +160,18 @@ void* prepare_sockets_and_get_clients(void* arguments) {
   return NULL;
 }
 
-void message_initial(int player_number, struct arg_struct* args, char colors[8][9]) {
+void message_initial(int player_number, struct arg_struct *args, char colors[8][9])
+{
   printf("Entro jugador %i\n", player_number);
-  char* welcome = "Bienvenido a Among RUZ!!";
+  char *welcome = "Bienvenido a Among RUZ!!";
   char color_string[34];
   char message_string[34];
   char players_string[29];
   int number_players_connected = 0;
-  for (int i = 0; i < 8; i++){
-    if (args->sockets_clients->socket[i] != 0){
+  for (int i = 0; i < 8; i++)
+  {
+    if (args->sockets_clients->socket[i] != 0)
+    {
       number_players_connected++;
     }
   }
@@ -144,8 +181,10 @@ void message_initial(int player_number, struct arg_struct* args, char colors[8][
   server_send_message(args->sockets_clients->socket[player_number - 1], 1, welcome);
   server_send_message(args->sockets_clients->socket[player_number - 1], 1, color_string);
   server_send_message(args->sockets_clients->socket[player_number - 1], 1, players_string);
-  for (int i = 0; i < 8; i++) {
-    if (args->sockets_clients->socket[i] && i != player_number - 1) {
+  for (int i = 0; i < 8; i++)
+  {
+    if (args->sockets_clients->socket[i] && i != player_number - 1)
+    {
       server_send_message(args->sockets_clients->socket[i], 1, message_string);
       server_send_message(args->sockets_clients->socket[i], 1, players_string);
     }
