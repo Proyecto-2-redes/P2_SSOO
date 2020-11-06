@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     printf("Uso: %s -i <ip_address> -p <tcp_port>\n", argv[0]);
     return EXIT_FAILURE;
   }
-  signal(SIGPIPE, SIG_IGN); // que vola esta cosa
+  signal(SIGPIPE, SIG_IGN);
   char *IP = argv[2];
   int PORT = atoi(argv[4]);
   printf("SE HA INICIADO EL SERVER DE AMONGRUZ\n");
@@ -406,6 +406,11 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
           }
         }
       }
+      else if (arg_struct->playing == 0)
+      {
+        char *response = "WARNING Se debe usar \\players cuando se haya iniciado el juego.";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
+      }
       // si el que inicio el comando es impostor
       if (arg_struct->players[socket_number - 1].player_type == 2)
       {
@@ -486,17 +491,17 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
       }
       else if (arg_struct->playing == 0)
       {
-        char *response = "WARNING Se debe usar vote cuando se haya iniciado el juego.";
+        char *response = "WARNING Se debe usar \\vote cuando se haya iniciado el juego.";
         server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
       }
     }
     else if (strcmp(message_split, "\\kill") == 0)
     {
       // Si está vivo
-      if (arg_struct->players[socket_number - 1].estado == 1)
+      if (arg_struct->playing == 1)
       {
         // Si se inició la partida
-        if (arg_struct->playing == 1)
+        if (arg_struct->players[socket_number - 1].estado == 1)
         {
           // Si es Impostor
           if (arg_struct->players[socket_number - 1].player_type == 2)
@@ -608,18 +613,23 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         // Si no se ha iniciado la partida todavia
         else
         {
-          char *warning = "WARNING Se debe iniciar partida para poder usar Kill";
+          char *warning = "WARNING Debes estar vivo para realizar el comando \\kill";
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
         }
+      }
+      else if (arg_struct->playing == 0)
+      {
+        char *response = "WARNING Se debe usar \\kill cuando se haya iniciado el juego.";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
       }
     }
     else if (strcmp(message_split, "\\spy") == 0)
     {
       // si está vivo
-      if (arg_struct->players[socket_number - 1].estado == 1)
+      if (arg_struct->playing == 1)
       {
         // si estan jugando
-        if (arg_struct->playing == 1)
+        if (arg_struct->players[socket_number - 1].estado == 1)
         {
           // si es que es ruzmate
           if (arg_struct->players[socket_number - 1].player_type == 1)
@@ -679,15 +689,20 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
         // si no se a iniciado la partida todavia
         else
         {
-          char *warning = "Se debe iniciar partida para poder usar spy";
+          char *warning = "WARNING Debes estar vivo para realizar el comando \\spy";
           server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
         }
+      }
+      else if (arg_struct->playing == 0)
+      {
+        char *response = "WARNING Se debe usar \\spy cuando se haya iniciado el juego.";
+        server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, response);
       }
     }
 
     else if (strcmp(message_split, "\\whisper") == 0)
     {
-      if (arg_struct->players[socket_number - 1].estado == 1)
+      if (arg_struct->players[socket_number - 1].estado != 2 && arg_struct->players[socket_number - 1].estado != 3)
       {
         message_split = strtok(NULL, " ");
         int result = 0;
@@ -701,7 +716,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
               message_split = strtok(NULL, "\0");
               if (message_split == NULL)
               {
-                char *warning = "WARNING: Tiene que escribir un mensaje para realizar el comando WHISPER";
+                char *warning = "WARNING: Tiene que escribir un mensaje para realizar el comando \\whisper";
                 server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
               }
               else
@@ -729,7 +744,7 @@ void message_handler(char *message, int socket_number, struct arg_struct *arg_st
     }
     else
     {
-      char *warning = "WARNING comando inválido. Tiene que ser: \\start; \\exit; \\players; \\vote [color]; \\kill [color]; \\spy [color]; \\whisper [color].";
+      char *warning = "WARNING comando inválido. Tiene que ser: \\start [number]; \\exit; \\players; \\vote [color]; \\kill [color]; \\spy [color]; \\whisper [color] [mensaje].";
       server_send_message(arg_struct->sockets_clients->socket[socket_number - 1], 1, warning);
     }
   }

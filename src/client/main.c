@@ -21,7 +21,6 @@ int main(int argc, char *argv[])
   }
   char *IP = argv[2];
   int PORT = atoi(argv[4]);
-  printf("hola, soy client\n");
 
   // Se prepara el socket
   int server_socket = prepare_socket(IP, PORT);
@@ -47,7 +46,6 @@ int main(int argc, char *argv[])
 
 void *recv_msg_handler(void *arguments)
 {
-  printf("entra\n");
   struct arg_struct *args = (struct arg_struct *)arguments;
   char *message = NULL;
   while (1)
