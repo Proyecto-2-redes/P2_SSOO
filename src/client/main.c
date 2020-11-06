@@ -167,7 +167,7 @@ void *send_msg_handler(void *arguments)
   char message[LENGTH];
   while (1)
   {
-    sleep(1); //BOORRAR
+    //sleep(1); //BOORRAR
     fflush(stdout);
     fgets(message, LENGTH, stdin);
     str_trim_lf(message, LENGTH);
