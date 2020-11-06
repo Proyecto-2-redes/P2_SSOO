@@ -19,10 +19,12 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 
 
 ## Descripción de los paquetes utilizados en la comunicación entre cliente y servidor
--
--
--
--
+El ID dicta para qué es el mensaje:
+- 1: mensaje que emite el servidor
+- 2 - 9: mensaje de un jugador determinado
+- 10 - 17: mensaje privado de un jugador determinado vía whisper
+- 18 - 25: mensaje de un jugador fantasma determinado
+- 255: desconexión
 
 ## Cuáles fueron las principales decisiones de diseño para construir el programa
 - El chat fantasma es sólo para expulsados, no para eliminados.
