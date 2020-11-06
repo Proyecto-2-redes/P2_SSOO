@@ -29,18 +29,18 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 
 ## Cuáles son las principales funciones del programa
 ### Client - communication.h
-- void client_send_message(int client_socket, int pkg_id, char * message):  
-- int client_receive_id(int client_socket):  
-- char * client_receive_payload(int client_socket):  
+- void client_send_message(int client_socket, int pkg_id, char * message): recibe como argumentos un int que representa el socket del cliente, otro int que representa en id del paquete y un puntero a un char del mensaje. Retorna vacío.  
+- int client_receive_id(int client_socket): recibe como argumento un int que representa el socket del cliente. Retorna un int que representa el ID del mensaje.  
+- char * client_receive_payload(int client_socket): recibe como argumento un int que representa el socket del cliente. Retorna un puntero a un char que representa el payload.  
 
 ### Client - connection.h
-- int prepare_socket(char *IP, int PORT):  
+- int prepare_socket(char *IP, int PORT): recibe como argumentos un puntero a un char de la dirección IP y un int que representa el puerto. Retorna un int que representa el socket del cliente.  
 
 ### Client - main.c
-- void * recv_msg_handler(void *arguments):  
-- void * send_msg_handler(void *arguments):  
-- void str_trim_lf(char *arr, int length):  
-- int main(int argc, char *argv[]):  
+- void * recv_msg_handler(void *arguments): recibe como argumento un puntero a argumentos necesarios para crear un struct arg. Retorna un puntero vacío.   
+- void * send_msg_handler(void *arguments): recibe como argumento un puntero a argumentos necesarios para crear un struct arg. Retorna un puntero vacío.   
+- void str_trim_lf(char *arr, int length): recibe como argumentos un puntero a un arreglo de chars y un int. Retorna vacío.  
+- int main(int argc, char *argv[]): función que maneja el programa principal.  
 
 ### Server - communication.h
 - int server_receive_id(int client_socket):  
