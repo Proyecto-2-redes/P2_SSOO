@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
   // Se prepara el socket
   int server_socket = prepare_socket(IP, PORT);
+  printf("server soket: %i\n", server_socket);
 
   struct arg_struct args;
   args.server_socket = server_socket;

@@ -14,7 +14,7 @@ int prepare_socket(char *IP, int PORT)
   inet_aton(IP, &server_addr.sin_addr);
 
   // Se pide una conexión al servidor
-  int ret = connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
+  connect(client_socket, (struct sockaddr *)&server_addr, sizeof(server_addr));
 
   return client_socket;
 }
