@@ -64,4 +64,4 @@ Este trabajo se realizó haciendo pruebas en la dirección IP 0.0.0.0 y en el pu
 
 ## Cualquier información que consideren necesaria para facilitar la corrección de su tarea
 - Whisper funciona incluso si la partida no está inicializada.
-- Whisper le llega a cualquier jugador, este en estado 0 (desconectado) o estado > 0 (conectado - su número de socket).
+- Whisper le llega a cualquier jugador, este en estado 0 (desconectado) o estado > 0 (conectado: su número de socket).
